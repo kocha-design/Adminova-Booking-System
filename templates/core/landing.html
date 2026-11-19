@@ -15,10 +15,10 @@
             height: 100%;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Zuia kuscroll kwenye landing page */
+            overflow: hidden;
         }
 
-        /* Picha ya Nyuma (Full Screen) na Animation ya Zoom */
+        /* Picha ya Nyuma (Full Screen) */
         .hero-section {
             height: 100vh;
             background-position: center;
@@ -29,14 +29,8 @@
             justify-content: center;
             text-align: center;
             color: white;
-            transition: background-image 1.5s ease-in-out; /* Smooth fade effect */
+            transition: background-image 1.5s ease-in-out;
             background-image: linear-gradient(rgba(20, 42, 79, 0.85), rgba(20, 42, 79, 0.90)), url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-        }
-
-        /* Animation ya Picha Kupungua na Kukua taratibu */
-        @keyframes slowZoom {
-            0% { background-size: 100%; }
-            100% { background-size: 110%; }
         }
 
         .hero-content h1 {
@@ -44,19 +38,20 @@
             font-weight: 700;
             letter-spacing: -1px;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        /* Sehemu ya Animation ya Maneno (Typing/Fade Effect) */
+        /* Animation ya Maneno */
         .service-animation-container {
-            height: 60px; /* Inazuia layout kusogea wakati maneno yanabadilika */
+            height: 60px;
             margin-bottom: 30px;
             position: relative;
         }
 
         .service-text {
             font-size: 1.5rem;
-            font-weight: 400;
-            color: #4FA3D1; /* Sky Blue kutoka kwenye logo */
+            font-weight: 600;
+            color: #4FA3D1; /* Sky Blue */
             opacity: 0;
             position: absolute;
             width: 100%;
@@ -82,26 +77,27 @@
             background-color: #0d6efd;
             color: white;
             font-weight: 600;
-            padding: 12px 35px;
-            border-radius: 8px;
+            padding: 14px 40px;
+            border-radius: 30px;
             font-size: 1.1rem;
             border: none;
             transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
         }
 
         .btn-login:hover {
             background-color: #0b5ed7;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.6);
         }
 
         .btn-learn {
             background-color: transparent;
             color: white;
             font-weight: 600;
-            padding: 12px 35px;
-            border-radius: 8px;
+            padding: 14px 40px;
+            border-radius: 30px;
             font-size: 1.1rem;
             border: 2px solid white;
             transition: 0.3s;
@@ -110,7 +106,7 @@
         .btn-learn:hover {
             background-color: white;
             color: #142a4f;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
 
         /* WhatsApp Floating Button */
@@ -125,7 +121,7 @@
             border-radius: 50px;
             text-align: center;
             font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
             z-index: 100;
             display: flex;
             align-items: center;
@@ -155,7 +151,7 @@
         <div class="container hero-content">
             <h1>Adminova Consulting</h1>
             
-            <!-- Sehemu ya Animation ya Huduma -->
+            <!-- Animation ya Huduma -->
             <div class="service-animation-container">
                 <span class="service-text active">Business Consulting & Corporate Advisory</span>
                 <span class="service-text">Administration & Human Resource Support</span>
@@ -171,49 +167,46 @@
 
             <p class="subtitle">Simplify. Grow. Succeed. The ultimate partner for your business.</p>
             
+            <!-- Vitufe: Login Pekee na Learn More (Hakuna Register) -->
             <div class="d-flex justify-content-center gap-3">
-                <a href="{% url 'accounts:login' %}" class="btn btn-login">Login to System</a>
-                <a href="{% url 'bookings:service_list' %}" class="btn btn-learn">Learn More</a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-login">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Login to System
+                </a>
+                <a href="{% url 'bookings:service_list' %}" class="btn btn-learn">
+                    Explore Services
+                </a>
             </div>
         </div>
     </div>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/255613950508" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/255613950508" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
         <i class="bi bi-whatsapp"></i>
     </a>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JavaScript Zote Zimewekwa Hapa -->
+    <!-- JavaScript -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. Animation ya Kubadilisha Maneno (Services)
+            // 1. Animation ya Kubadilisha Maneno
             const services = document.querySelectorAll('.service-text');
             let currentIndex = 0;
 
             function rotateServices() {
-                // Ondoa 'active' kwenye neno la sasa
                 services[currentIndex].classList.remove('active');
-                
-                // Nenda kwenye neno linalofuata
                 currentIndex = (currentIndex + 1) % services.length;
-                
-                // Weka 'active' kwenye neno jipya
                 services[currentIndex].classList.add('active');
             }
-
-            // Badilisha neno kila baada ya sekunde 3
             setInterval(rotateServices, 3000);
-
 
             // 2. Slideshow ya Picha za Nyuma
             const bgImages = [
-                "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80", // Business meeting
-                "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80", // Airplane (Travel)
-                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80", // Catering/Food
-                "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"  // Technology
+                "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+                "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+                "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
             ];
             
             let currentBg = 0;
@@ -221,9 +214,8 @@
 
             setInterval(() => {
                 currentBg = (currentBg + 1) % bgImages.length;
-                // Tunatumia linear-gradient ya giza juu ya picha ili maandishi yasomeke
                 heroSection.style.backgroundImage = `linear-gradient(rgba(20, 42, 79, 0.85), rgba(20, 42, 79, 0.90)), url('${bgImages[currentBg]}')`;
-            }, 5000); // Inabadilika kila baada ya sekunde 5
+            }, 5000);
         });
     </script>
 </body>
