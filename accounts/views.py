@@ -86,3 +86,40 @@ def update_user_role(request, user_id):
             messages.success(request, f"{target_user.username}'s role has been updated to {target_user.get_role_display()}.")
         
     return redirect('accounts:manage_users')
+
+# 1. View ya Kuonyesha Fomu ya Kuunda Worker
+@login_required
+def create_worker(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied. Only Super Admins can create workers.")
+        return redirect('bookings:my_bookings')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        role = request.POST.get('role', 'worker')
+        password = request.POST.get('password')
+
+        # Kagua kama username tayari ipo
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists.")
+            return render(request, 'accounts/create_worker.html')
+
+        # Tengeneza mtumiaji mpya
+        new_user = CustomUser.objects.create_user(
+            username=username,
+            email=email,
+            phone=phone,
+            password=password,
+            role=role
+        )
+        # Kama ni admin, mpe staff status
+        if role == 'admin':
+            new_user.is_staff = True
+            new_user.save()
+
+        messages.success(request, f"Worker '{username}' created successfully! Give them the password: {password}")
+        return redirect('accounts:manage_users')
+
+    return render(request, 'accounts/create_worker.html')

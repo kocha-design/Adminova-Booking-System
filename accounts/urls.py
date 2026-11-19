@@ -16,4 +16,5 @@ urlpatterns = [
     ), name='password_change'),
     path('manage-users/', views.manage_users, name='manage_users'),
     path('update-role/<int:user_id>/', views.update_user_role, name='update_user_role'),
+    path('manage-users/create-worker/', views.create_worker, name='create_worker'),
 ]
