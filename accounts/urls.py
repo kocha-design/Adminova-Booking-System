@@ -14,4 +14,6 @@ urlpatterns = [
         template_name='accounts/password_change.html', 
         success_url='/accounts/profile/'
     ), name='password_change'),
+    path('manage-users/', views.manage_users, name='manage_users'),
+    path('update-role/<int:user_id>/', views.update_user_role, name='update_user_role'),
 ]

@@ -3,7 +3,8 @@ from django.contrib.auth import login
 from django.contrib import messages
 from .models import CustomUser
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render, redirect, get_object_or_404
 
 def register_view(request):
     if request.user.is_authenticated:
@@ -47,3 +48,41 @@ def profile_view(request):
         return redirect('accounts:profile')
         
     return render(request, 'accounts/profile.html')
+
+# 1. View ya Kuonyesha Watumiaji Wote
+@login_required
+def manage_users(request):
+    # Hakikisha ni Super Admin tu anayeweza kuingia
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied. Only Super Admins can manage users.")
+        return redirect('bookings:my_bookings')
+    
+    # Toa watumiaji wote isipokuwa yeye mwenyewe (Brian)
+    users = CustomUser.objects.exclude(id=request.user.id).order_by('-date_joined')
+    
+    return render(request, 'accounts/manage_users.html', {'users': users})
+
+
+# 2. View ya Kubadilisha Role ya Mtumiaji
+@login_required
+def update_user_role(request, user_id):
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied.")
+        return redirect('bookings:my_bookings')
+
+    if request.method == 'POST':
+        target_user = get_object_or_404(CustomUser, id=user_id)
+        new_role = request.POST.get('role')
+        
+        if new_role in dict(CustomUser.ROLE_CHOICES):
+            target_user.role = new_role
+            # Kama ni Admin, mpe na staff status ili aweze kuingia Django Admin
+            if new_role == 'admin':
+                target_user.is_staff = True
+            else:
+                target_user.is_staff = False
+                
+            target_user.save()
+            messages.success(request, f"{target_user.username}'s role has been updated to {target_user.get_role_display()}.")
+        
+    return redirect('accounts:manage_users')
