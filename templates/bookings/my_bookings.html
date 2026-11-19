@@ -1,33 +1,66 @@
 {% extends 'dashboard_base.html' %}
-{% block title %}My Bookings — Adminova System{% endblock %}
+{% block title %}My Bookings — Adminova{% endblock %}
 {% block page_title %}My Bookings{% endblock %}
 
 {% block content %}
-<!-- Weka table yako ya bookings hapa kama ilivyokuwa -->
-<div class="table-responsive">
-    <table class="table table-hover align-middle">
-        <thead class="table-light">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="text-muted mb-0">Your Service Requests</h5>
+    <a href="{% url 'bookings:service_list' %}" class="btn btn-sm text-white shadow-sm" style="background-color: var(--adminova-navy);"><i class="bi bi-plus-lg me-1"></i> New Booking</a>
+</div>
+
+{% if bookings %}
+<div class="table-responsive bg-white rounded-3 shadow-sm border-0">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
             <tr>
-                <th>#</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Price</th>
+                <th class="py-3 px-4 border-0 text-muted small fw-bold">REF</th>
+                <th class="py-3 border-0 text-muted small fw-bold">SERVICE</th>
+                <th class="py-3 border-0 text-muted small fw-bold">DATE</th>
+                <th class="py-3 border-0 text-muted small fw-bold">STATUS</th>
+                <th class="py-3 px-4 border-0 text-muted small fw-bold text-end">PRICE</th>
             </tr>
         </thead>
         <tbody>
             {% for b in bookings %}
             <tr>
-                <td>{{ b.id }}</td>
-                <td>{{ b.service.name }}</td>
-                <td>{{ b.preferred_date|default:"—" }}</td>
-                <td><span class="badge badge-{{ b.status }}">{{ b.get_status_display }}</span></td>
-                <td>{% if b.quoted_price %}TZS {{ b.quoted_price }}{% else %}Pending{% endif %}</td>
+                <td class="px-4 fw-bold text-secondary">#{{ b.id }}</td>
+                <td>
+                    <span class="fw-bold text-dark d-block">{{ b.service.name }}</span>
+                    <small class="text-muted">{{ b.service.get_category_display }}</small>
+                </td>
+                <td class="text-muted">{{ b.preferred_date|date:"M d, Y"|default:"Not set" }}</td>
+                <td>
+                    {% if b.status == 'pending' %}<span class="badge bg-warning text-dark px-3 py-2 rounded-pill">Pending</span>
+                    {% elif b.status == 'confirmed' %}<span class="badge bg-info text-dark px-3 py-2 rounded-pill">Confirmed</span>
+                    {% elif b.status == 'in_progress' %}<span class="badge bg-primary px-3 py-2 rounded-pill">In Progress</span>
+                    {% elif b.status == 'completed' %}<span class="badge bg-success px-3 py-2 rounded-pill">Completed</span>
+                    {% else %}<span class="badge bg-danger px-3 py-2 rounded-pill">Cancelled</span>{% endif %}
+                </td>
+                <td class="px-4 text-end fw-bold {% if b.quoted_price %}text-success{% else %}text-muted{% endif %}">
+                    {% if b.quoted_price %}TZS {{ b.quoted_price }}{% else %}-{% endif %}
+                </td>
             </tr>
-            {% empty %}
-            <tr><td colspan="5" class="text-center py-4">No bookings yet. <a href="{% url 'bookings:service_list' %}">Book a service</a></td></tr>
+            {% if b.admin_notes %}
+            <tr class="bg-light">
+                <td></td>
+                <td colspan="4" class="py-2 small text-muted">
+                    <i class="bi bi-info-circle me-1"></i> <strong>Admin Note:</strong> {{ b.admin_notes }}
+                </td>
+            </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>
 </div>
+{% else %}
+<!-- Empty State Nzuri -->
+<div class="text-center py-5 bg-white rounded-3 shadow-sm border-0">
+    <div class="mb-3">
+        <i class="bi bi-calendar-x text-muted" style="font-size: 4rem; opacity: 0.5;"></i>
+    </div>
+    <h4 class="fw-bold text-dark">No Bookings Yet</h4>
+    <p class="text-muted mb-4">You haven't requested any services. Browse our catalog to get started.</p>
+    <a href="{% url 'bookings:service_list' %}" class="btn text-white px-4 py-2 rounded-pill shadow-sm" style="background-color: var(--adminova-navy);">Book a Service</a>
+</div>
+{% endif %}
 {% endblock %}

@@ -1,59 +1,65 @@
 {% extends 'dashboard_base.html' %}
-
-{% block title %}Admin Dashboard — Adminova System{% endblock %}
+{% block title %}Manage Bookings — Adminova{% endblock %}
 {% block page_title %}Manage Bookings{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-    <h5 class="mb-0 text-muted">All Customer Requests</h5>
-    <span class="badge rounded-pill" style="background-color: var(--adminova-sky); font-size: 0.9rem;">{{ bookings|length }} Total Bookings</span>
+    <h5 class="text-muted mb-0">All Customer Requests</h5>
+    <span class="badge rounded-pill px-3 py-2" style="background-color: var(--adminova-sky); font-size: 0.9rem;">
+        {{ bookings|length }} Total Bookings
+    </span>
 </div>
 
 {% if bookings %}
-<div class="table-responsive">
-    <table class="table table-hover align-middle border">
-        <thead class="table-light">
+<div class="table-responsive bg-white rounded-3 shadow-sm border-0">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
             <tr>
-                <th>#</th>
-                <th>Customer</th>
-                <th>Service Details</th>
-                <th>Status</th>
-                <th style="min-width: 200px;">Actions</th>
+                <th class="py-3 px-4 border-0 text-muted small fw-bold">CUSTOMER</th>
+                <th class="py-3 border-0 text-muted small fw-bold">SERVICE</th>
+                <th class="py-3 border-0 text-muted small fw-bold">STATUS</th>
+                <th class="py-3 px-4 border-0 text-muted small fw-bold">ACTION</th>
             </tr>
         </thead>
         <tbody>
             {% for b in bookings %}
             <tr>
-                <td><strong>#{{ b.id }}</strong></td>
-                <td>
-                    <span class="fw-bold text-dark">{{ b.customer.username }}</span><br>
-                    <small class="text-muted">{{ b.customer.email|default:"No email" }}</small><br>
-                    <small class="text-muted">{{ b.customer.phone|default:"No phone" }}</small>
+                <td class="px-4">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-secondary bg-opacity-10 text-secondary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; font-weight: bold;">
+                            {{ b.customer.username|first|upper }}
+                        </div>
+                        <div>
+                            <span class="fw-bold text-dark d-block">{{ b.customer.username }}</span>
+                            <small class="text-muted">{{ b.customer.email|default:"No email" }}</small>
+                        </div>
+                    </div>
                 </td>
-                <td style="max-width: 300px;">
-                    <span class="fw-bold" style="color: var(--adminova-navy);">{{ b.service.name }}</span><br>
-                    <small class="text-muted">{{ b.details|truncatewords:15 }}</small>
+                <td>
+                    <span class="fw-bold text-dark d-block">{{ b.service.name }}</span>
+                    <small class="text-muted text-truncate d-inline-block" style="max-width: 250px;">{{ b.details }}</small>
                     {% if b.preferred_date %}
-                    <br><small class="badge bg-secondary mt-1">Pref: {{ b.preferred_date }}</small>
+                        <br><small class="badge bg-secondary mt-1">Pref: {{ b.preferred_date }}</small>
                     {% endif %}
                 </td>
                 <td>
-                    <span class="badge badge-{{ b.status }} mb-1">{{ b.get_status_display }}</span><br>
-                    {% if b.quoted_price %}
-                    <small class="fw-bold text-success">TZS {{ b.quoted_price }}</small>
-                    {% endif %}
+                    {% if b.status == 'pending' %}<span class="badge bg-warning text-dark px-3 py-2 rounded-pill">Pending</span>
+                    {% elif b.status == 'confirmed' %}<span class="badge bg-info text-dark px-3 py-2 rounded-pill">Confirmed</span>
+                    {% elif b.status == 'in_progress' %}<span class="badge bg-primary px-3 py-2 rounded-pill">In Progress</span>
+                    {% elif b.status == 'completed' %}<span class="badge bg-success px-3 py-2 rounded-pill">Completed</span>
+                    {% else %}<span class="badge bg-danger px-3 py-2 rounded-pill">Cancelled</span>{% endif %}
                 </td>
-                <td>
-                    <form method="post" action="{% url 'bookings:update_booking_status' b.id %}" class="d-flex flex-column gap-2">
+                <td class="px-4">
+                    <form method="post" action="{% url 'bookings:update_booking_status' b.id %}" class="d-flex flex-column gap-2" style="min-width: 200px;">
                         {% csrf_token %}
-                        <select name="status" class="form-select form-select-sm">
+                        <select name="status" class="form-select form-select-sm bg-light border-0">
                             {% for key, label in b.STATUS_CHOICES %}
                             <option value="{{ key }}" {% if b.status == key %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                         </select>
-                        <input type="number" name="quoted_price" class="form-control form-control-sm" placeholder="Quote (TZS)" value="{{ b.quoted_price|default_if_none:'' }}" step="0.01">
-                        <input type="text" name="admin_notes" class="form-control form-control-sm" placeholder="Internal Note" value="{{ b.admin_notes }}">
-                        <button type="submit" class="btn btn-adminova btn-sm w-100">Update Status</button>
+                        <input type="number" name="quoted_price" class="form-control form-control-sm bg-light border-0" placeholder="Quote (TZS)" value="{{ b.quoted_price|default_if_none:'' }}" step="0.01">
+                        <input type="text" name="admin_notes" class="form-control form-control-sm bg-light border-0" placeholder="Admin Note" value="{{ b.admin_notes }}">
+                        <button type="submit" class="btn btn-sm text-white w-100" style="background-color: var(--adminova-navy);">Update</button>
                     </form>
                 </td>
             </tr>
@@ -62,9 +68,13 @@
     </table>
 </div>
 {% else %}
-<div class="text-center py-5">
-    <h4 class="text-muted">No bookings found.</h4>
-    <p>When customers book services, they will appear here.</p>
+<!-- Empty State Nzuri -->
+<div class="text-center py-5 bg-white rounded-3 shadow-sm border-0">
+    <div class="mb-3">
+        <i class="bi bi-inbox text-muted" style="font-size: 4rem; opacity: 0.5;"></i>
+    </div>
+    <h4 class="fw-bold text-dark">No bookings found</h4>
+    <p class="text-muted mb-0">When customers book services, they will appear here.</p>
 </div>
 {% endif %}
 {% endblock %}

@@ -1,18 +1,54 @@
 {% extends 'dashboard_base.html' %}
-{% block title %}Our Services — Adminova System{% endblock %}
+{% block title %}Available Services — Adminova{% endblock %}
 {% block page_title %}Available Services{% endblock %}
 
 {% block content %}
-<!-- Weka Grid ya services hapa kama ilivyokuwa -->
-<div class="row g-3">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="text-muted mb-0">Select a service to proceed with your request</h5>
+</div>
+
+<div class="row g-4">
     {% for service in services %}
-    <div class="col-md-6 col-lg-4">
-        <div class="card h-100 p-3 border-0 shadow-sm" style="border-left: 4px solid #1F3A68;">
-            <h5 class="fw-bold" style="color: #1F3A68;">{{ service.name }}</h5>
-            <p class="text-muted small">{{ service.description|truncatewords:15 }}</p>
-            <a href="{% url 'bookings:book_service' service.id %}" class="btn btn-adminova btn-sm mt-auto">Book Now</a>
+    <div class="col-md-6 col-xl-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 service-card" style="transition: transform 0.2s, box-shadow 0.2s;">
+            <div class="card-body p-4 d-flex flex-column">
+                
+                <!-- Icon ya Kila Huduma (Inabadilika kulingana na aina) -->
+                <div class="mb-3">
+                    {% if service.category == 'business_consulting' %}
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-graph-up-arrow fs-4"></i></div>
+                    {% elif service.category == 'travel_ticketing' or service.category == 'hotel_transfers' %}
+                        <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-airplane fs-4"></i></div>
+                    {% elif service.category == 'technology' %}
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-cpu fs-4"></i></div>
+                    {% elif service.category == 'catering' %}
+                        <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-cup-hot fs-4"></i></div>
+                    {% else %}
+                        <div class="bg-secondary bg-opacity-10 text-secondary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-briefcase fs-4"></i></div>
+                    {% endif %}
+                </div>
+
+                <h5 class="card-title fw-bold text-dark mb-2">{{ service.name }}</h5>
+                <p class="card-text text-muted small mb-4 flex-grow-1">{{ service.description }}</p>
+                
+                <div class="mt-auto d-flex justify-content-between align-items-center">
+                    {% if service.base_price %}
+                        <span class="fw-bold text-dark">From TZS {{ service.base_price }}</span>
+                    {% else %}
+                        <span class="text-muted small">Contact for price</span>
+                    {% endif %}
+                    <a href="{% url 'bookings:book_service' service.id %}" class="btn btn-sm text-white rounded-pill px-3" style="background-color: var(--adminova-navy);">Book Now <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
         </div>
     </div>
     {% endfor %}
 </div>
+
+<style>
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    }
+</style>
 {% endblock %}
