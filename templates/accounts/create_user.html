@@ -3,65 +3,138 @@
 {% block page_title %}Add New User{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card border-0 shadow-sm rounded-4">
-            <div class="card-body p-5">
+<div class="row justify-content-center py-4">
+    <div class="col-xl-10">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background: white;">
+            <div class="row g-0">
                 
-                <div class="text-center mb-4">
-                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
-                        <i class="bi bi-person-plus fs-1"></i>
+                <!-- Upande wa Kushoto: Maelezo (Information Panel) -->
+                <div class="col-md-5 d-none d-md-flex flex-column justify-content-center p-5 text-white" 
+                     style="background: linear-gradient(135deg, #1F3A68 0%, #4FA3D1 100%);">
+                    <div class="mb-4">
+                        <div class="bg-white bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 60px; height: 60px;">
+                            <i class="bi bi-person-vcard fs-2 text-white"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Grant System Access</h3>
+                        <p class="opacity-75 mb-4">Create secure credentials for customers and staff members. Once created, they can access their dashboard immediately.</p>
                     </div>
-                    <h4 class="fw-bold" style="color: var(--adminova-navy);">Create New Account</h4>
-                    <p class="text-muted small">Weka taarifa za mteja au mfanyakazi mpya. Atatumia hizi kuingia kwenye mfumo.</p>
+
+                    <div class="mt-auto">
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                <span class="small">Instant Dashboard Access</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                <span class="small">Role-based Permissions</span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                                <span class="small">Secure Temporary Password</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                {% if messages %}
-                    {% for m in messages %}
-                        <div class="alert alert-{{ m.tags }} small border-0 shadow-sm">{{ m }}</div>
-                    {% endfor %}
-                {% endif %}
+                <!-- Upande wa Kulia: Fomu (Form Panel) -->
+                <div class="col-md-7">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <div class="mb-4">
+                            <h4 class="fw-bold" style="color: var(--adminova-navy);">Create New Account</h4>
+                            <p class="text-muted small">Fill in the details below to register a new customer or staff member.</p>
+                        </div>
 
-                <form method="post">
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                        <label class="form-label text-muted small fw-bold">USERNAME</label>
-                        <input type="text" name="username" class="form-control bg-light" required placeholder="e.g. johndoe">
-                    </div>
+                        {% if messages %}
+                            {% for m in messages %}
+                                <div class="alert alert-{{ m.tags }} small border-0 shadow-sm">{{ m }}</div>
+                            {% endfor %}
+                        {% endif %}
 
-                    <div class="mb-3">
-                        <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
-                        <input type="email" name="email" class="form-control bg-light" required placeholder="user@example.com">
-                    </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Username -->
+                            <div class="mb-3">
+                                <label class="form-label text-muted small fw-bold">USERNAME</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                                    <input type="text" name="username" class="form-control bg-light border-start-0" required placeholder="e.g. johndoe">
+                                </div>
+                            </div>
 
-                    <div class="mb-3">
-                        <label class="form-label text-muted small fw-bold">PHONE NUMBER</label>
-                        <input type="text" name="phone" class="form-control bg-light" placeholder="+255 7XX XXX XXX">
-                    </div>
+                            <!-- Email & Phone (Side by Side) -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                                        <input type="email" name="email" class="form-control bg-light border-start-0" required placeholder="user@example.com">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted small fw-bold">PHONE NUMBER</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone text-muted"></i></span>
+                                        <input type="text" name="phone" class="form-control bg-light border-start-0" placeholder="+255 7XX XXX XXX">
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="mb-3">
-                        <label class="form-label text-muted small fw-bold">TEMPORARY PASSWORD</label>
-                        <input type="text" name="password" class="form-control bg-light" required value="Adminova@2026" placeholder="We have set a default password">
-                        <small class="text-muted" style="font-size: 0.75rem;">Mtu huyu atatakiwa kubadilisha password hii akishaingia.</small>
-                    </div>
+                            <!-- Password -->
+                            <div class="mb-4">
+                                <label class="form-label text-muted small fw-bold">TEMPORARY PASSWORD</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-key text-muted"></i></span>
+                                    <input type="text" name="password" class="form-control bg-light border-start-0" id="tempPassword" required value="Adminova@2026">
+                                    <button class="btn btn-outline-secondary bg-light" type="button" onclick="copyPassword()" title="Copy Password">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text text-muted small mt-2">
+                                    <i class="bi bi-info-circle me-1"></i> User will be prompted to change this password after first login.
+                                </div>
+                            </div>
 
-                    <div class="mb-4">
-                        <label class="form-label text-muted small fw-bold">ACCOUNT ROLE</label>
-                        <select name="role" class="form-select bg-light">
-                            <option value="customer">Customer (Client — can make bookings)</option>
-                            <option value="worker">Worker (Company Staff — can manage bookings)</option>
-                            <option value="admin">Admin (Full Management Access)</option>
-                        </select>
-                    </div>
+                            <!-- Role -->
+                            <div class="mb-5">
+                                <label class="form-label text-muted small fw-bold">ACCOUNT ROLE</label>
+                                <select name="role" class="form-select bg-light">
+                                    <option value="customer">Customer (Client — can make bookings)</option>
+                                    <option value="worker">Worker (Staff — can manage bookings)</option>
+                                    <option value="admin">Admin (Full system access)</option>
+                                </select>
+                            </div>
 
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn text-white w-100 py-2" style="background-color: var(--adminova-navy);">Create Account</button>
-                        <a href="{% url 'accounts:manage_users' %}" class="btn btn-outline-secondary w-50 py-2">Cancel</a>
+                            <!-- Buttons -->
+                            <div class="d-flex gap-3">
+                                <button type="submit" class="btn text-white w-100 py-3 fw-bold shadow-sm" style="background-color: var(--adminova-navy); border-radius: 10px; letter-spacing: 0.5px;">
+                                    <i class="bi bi-check2-circle me-2"></i> Create Account
+                                </button>
+                                <a href="{% url 'accounts:manage_users' %}" class="btn btn-light border w-50 py-3 fw-bold" style="border-radius: 10px;">Cancel</a>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+<!-- JavaScript ya Kunakili Password -->
+<script>
+    function copyPassword() {
+        var copyText = document.getElementById("tempPassword");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+        
+        var btn = event.currentTarget;
+        var originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check-lg text-success"></i>';
+        setTimeout(function(){ btn.innerHTML = originalHTML; }, 2000);
+    }
+</script>
 {% endblock %}
