@@ -52,13 +52,12 @@ def profile_view(request):
 # 1. View ya Kuonyesha Watumiaji Wote
 @login_required
 def manage_users(request):
-    # Hakikisha ni Super Admin tu anayeweza kuingia
     if not request.user.is_superuser:
         messages.error(request, "Access denied. Only Super Admins can manage users.")
         return redirect('bookings:my_bookings')
     
-    # Toa watumiaji wote isipokuwa yeye mwenyewe (Brian)
-    users = CustomUser.objects.exclude(id=request.user.id).order_by('-date_joined')
+    # Badilisha hii line (ondoa exclude)
+    users = CustomUser.objects.all().order_by('-date_joined')
     
     return render(request, 'accounts/manage_users.html', {'users': users})
 
