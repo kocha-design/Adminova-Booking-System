@@ -1,34 +1,173 @@
-{% extends 'base.html' %}
-{% block title %}Login — Adminova{% endblock %}
-{% block content %}
-<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
-  <div class="col-md-5 col-lg-4">
-    <div class="card shadow-lg border-0" style="border-radius: 15px;">
-      <div class="card-body p-5">
-        <div class="text-center mb-4">
-            <h3 class="fw-bold" style="color: var(--adminova-navy);">Welcome Back</h3>
-            <p class="text-muted small">Login to manage your bookings</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Adminova Consulting</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; }
+        .split-screen { display: flex; min-height: 100vh; }
+        
+        /* Upande wa Kushoto (Picha) */
+        .left-side {
+            flex: 1;
+            background: linear-gradient(rgba(20, 42, 79, 0.7), rgba(20, 42, 79, 0.9)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            max-width: 500px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Upande wa Kulia (Fomu) */
+        .right-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background-color: white;
+        }
+
+        .form-container { width: 100%; max-width: 420px; }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus { box-shadow: none; border-color: #1F3A68; background-color: white; }
+
+        .btn-login {
+            background-color: #1F3A68;
+            color: white;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover { background-color: #142a4f; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(31, 58, 104, 0.3); }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover { background: rgba(0,0,0,0.6); color: white; }
+
+        @media (max-width: 991px) {
+            .left-side { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="split-screen">
+        <!-- LEFT SIDE: Picha na Glassmorphism -->
+        <div class="left-side d-none d-lg-flex">
+            <a href="{% url 'core:home' %}" class="back-link"><i class="bi bi-arrow-left me-2"></i> Back to Website</a>
+            
+            <div class="glass-card text-center">
+                <img src="{% static 'images/adminova_logo.png' %}" alt="Logo" style="height: 70px; background: white; padding: 10px; border-radius: 15px;" class="mb-4">
+                <h2 class="fw-bold mb-3">Welcome to Adminova.</h2>
+                <p class="lead mb-4">Access your dashboard to manage bookings, track services, and grow your business with us.</p>
+                <div class="d-flex align-items-center justify-content-center gap-3 mt-4 border-top border-light pt-3">
+                    <div class="bg-white rounded-circle p-2"><i class="bi bi-shield-check fs-4" style="color: #1F3A68;"></i></div>
+                    <div class="text-start">
+                        <h6 class="mb-0 fw-bold">Secure & Trusted</h6>
+                        <small class="text-light opacity-75">Your data is protected with us.</small>
+                    </div>
+                </div>
+            </div>
         </div>
-        {% if form.errors %}
-          <div class="alert alert-danger text-center small">Invalid username or password.</div>
-        {% endif %}
-        <form method="post">
-          {% csrf_token %}
-          <div class="mb-3">
-            <label class="form-label text-muted small fw-bold">USERNAME</label>
-            <input type="text" name="username" class="form-control form-control-lg bg-light" required placeholder="Enter your username">
-          </div>
-          <div class="mb-4">
-            <label class="form-label text-muted small fw-bold">PASSWORD</label>
-            <input type="password" name="password" class="form-control form-control-lg bg-light" required placeholder="Enter your password">
-          </div>
-          <button type="submit" class="btn btn-adminova btn-lg w-100 py-2" style="border-radius: 10px;">Sign In</button>
-        </form>
-        <p class="mt-4 mb-0 text-center text-muted small">
-          Don't have an account? <a href="{% url 'accounts:register' %}" style="color: var(--adminova-navy); font-weight: bold;">Create one now</a>
-        </p>
-      </div>
+
+        <!-- RIGHT SIDE: Fomu Safi -->
+        <div class="right-side">
+            <div class="form-container">
+                
+                <div class="text-center d-lg-none mb-4">
+                    <a href="{% url 'core:home' %}"><img src="{% static 'images/adminova_logo.png' %}" alt="Logo" style="height: 60px;"></a>
+                </div>
+
+                <div class="text-center mb-5">
+                    <h3 class="fw-bold" style="color: #1F3A68;">Welcome Back</h3>
+                    <p class="text-muted">Login to manage your bookings</p>
+                </div>
+
+                {% if form.errors %}
+                    <div class="alert alert-danger text-center small border-0 shadow-sm" style="border-radius: 10px;">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Invalid username or password.
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="form-label text-muted small fw-bold">USERNAME</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                            <input type="text" name="username" class="form-control bg-light border-start-0" required placeholder="Enter your username">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-muted small fw-bold">PASSWORD</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" name="password" class="form-control bg-light border-start-0" required placeholder="Enter your password">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label text-muted small" for="rememberMe">Remember me</label>
+                        </div>
+                        <a href="#" class="text-decoration-none small" style="color: #4FA3D1;">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-login w-100 mb-4">Sign In</button>
+                </form>
+
+                <div class="text-center">
+                    <p class="mb-0 text-muted">Don't have an account? <a href="{% url 'accounts:register' %}" class="fw-bold text-decoration-none" style="color: #4FA3D1;">Create one now</a></p>
+                </div>
+                
+                <div class="text-center mt-4 d-lg-none">
+                    <a href="{% url 'core:home' %}" class="text-muted text-decoration-none small"><i class="bi bi-arrow-left"></i> Back to Home</a>
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
