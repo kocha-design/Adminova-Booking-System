@@ -1,36 +1,36 @@
 {% load static %}
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white shadow" style="width: 250px; background-color: #142a4f; min-height: calc(100vh - 76px);">
-    <a href="{% url 'core:home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+<div class="d-flex flex-column flex-shrink-0 p-3 shadow-sm bg-white border-end" style="width: 250px; min-height: calc(100vh - 76px);">
+    <a href="{% url 'core:home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none" style="color: var(--adminova-navy);">
         <span class="fs-5 fw-bold">Dashboard Menu</span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-            <a href="{% url 'core:home' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'home' %}active bg-primary{% endif %}">
+        <li class="nav-item mb-1">
+            <a href="{% url 'core:home' %}" class="nav-link text-dark {% if request.resolver_match.url_name == 'home' %}active bg-primary text-white{% endif %}">
                 🏠 Home
             </a>
         </li>
-        <li class="nav-item">
-            <a href="{% url 'bookings:service_list' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'service_list' %}active bg-primary{% endif %}">
+        <li class="nav-item mb-1">
+            <a href="{% url 'bookings:service_list' %}" class="nav-link text-dark {% if request.resolver_match.url_name == 'service_list' %}active bg-primary text-white{% endif %}">
                 🛠️ Services
             </a>
         </li>
-        <li class="nav-item">
-            <a href="{% url 'bookings:my_bookings' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'my_bookings' %}active bg-primary{% endif %}">
+        <li class="nav-item mb-1">
+            <a href="{% url 'bookings:my_bookings' %}" class="nav-link text-dark {% if request.resolver_match.url_name == 'my_bookings' %}active bg-primary text-white{% endif %}">
                 📋 My Bookings
             </a>
         </li>
         
         {% if user.is_company_staff %}
-        <li class="nav-item">
-            <a href="{% url 'bookings:admin_dashboard' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'admin_dashboard' %}active bg-primary{% endif %}">
+        <li class="nav-item mb-1">
+            <a href="{% url 'bookings:admin_dashboard' %}" class="nav-link text-dark {% if request.resolver_match.url_name == 'admin_dashboard' %}active bg-primary text-white{% endif %}">
                 📊 Admin Dashboard
             </a>
         </li>
         {% endif %}
         
-        <li class="nav-item">
-            <a href="{% url 'accounts:profile' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'profile' %}active bg-primary{% endif %}">
+        <li class="nav-item mb-1">
+            <a href="{% url 'accounts:profile' %}" class="nav-link text-dark {% if request.resolver_match.url_name == 'profile' %}active bg-primary text-white{% endif %}">
                 👤 My Profile
             </a>
         </li>
@@ -39,6 +39,6 @@
     <!-- Logout Button Kwenye Sidebar -->
     <form method="post" action="{% url 'accounts:logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger w-100 fw-bold">Logout</button>
+        <button type="submit" class="btn btn-outline-danger w-100 fw-bold">Logout</button>
     </form>
 </div>

@@ -11,7 +11,7 @@
 <body>
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-adminova sticky-top">
-        <div class="container-fluid px-4">
+        <div class="container">
             <!-- Logo & Brand Name -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'core:home' %}">
                 <img src="{% static 'images/adminova_logo.png' %}" alt="Adminova Logo" style="height: 50px; width: auto; background: white; padding: 5px; border-radius: 6px;">
@@ -23,22 +23,24 @@
                 <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
             </button>
 
-            <!-- Navbar Links (Right Side) -->
+            <!-- Navbar Links -->
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto align-items-center">
                     {% if not user.is_authenticated %}
-                        <!-- Hizi zinaonekana tu kama mtu haja-login -->
                         <li class="nav-item"><a class="nav-link" href="{% url 'core:home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'bookings:service_list' %}">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
                         <li class="nav-item ms-lg-2"><a class="btn btn-light btn-sm fw-bold rounded-pill px-3" style="color: var(--adminova-navy);" href="{% url 'accounts:register' %}">Register</a></li>
                     {% else %}
-                        <!-- Hizi zinaonekana kama mtu ameingia -->
-                        <li class="nav-item">
-                            <span class="navbar-text text-white me-3 fw-bold">👤 {{ user.username }}</span>
-                        </li>
-                        <!-- Logout Button iliyo wazi -->
-                        <li class="nav-item">
+                        <!-- Hapa tunaonyesha menu za haraka kwenye navbar -->
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'bookings:service_list' %}">Services</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'bookings:my_bookings' %}">My Bookings</a></li>
+                        {% if user.is_company_staff %}
+                            <li class="nav-item"><a class="nav-link text-white" href="{% url 'bookings:admin_dashboard' %}">Dashboard</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:profile' %}">My Profile</a></li>
+                        
+                        <li class="nav-item ms-lg-3 border-start border-secondary ps-3">
                             <form method="post" action="{% url 'accounts:logout' %}" class="d-flex m-0">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3 fw-bold">Logout</button>
@@ -52,31 +54,41 @@
 
     <!-- MAIN LAYOUT -->
     <div class="d-flex">
-        <!-- SIDEBAR (Inaonekana tu kama mtu ameingia) -->
-        {% if user.is_authenticated %}
+        
+        <!-- SIDEBAR: Inaonekana tu kwenye kurasa za ndani (Sio Home Page) -->
+        {% if user.is_authenticated and request.resolver_match.url_name != 'home' %}
             <div class="d-none d-md-block">
                 {% include 'includes/sidebar.html' %}
             </div>
         {% endif %}
 
         <!-- CONTENT AREA -->
-        <main class="flex-grow-1 p-4 bg-light" style="min-height: calc(100vh - 76px);">
+        <main class="flex-grow-1 {% if user.is_authenticated and request.resolver_match.url_name != 'home' %}p-4 bg-light{% else %}py-2 bg-white{% endif %}" style="min-height: calc(100vh - 76px);">
             <!-- Success/Error Messages -->
             {% if messages %}
+                <div class="container mt-3">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
                         {{ message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 {% endfor %}
+                </div>
             {% endif %}
 
-            {% block content %}{% endblock %}
+            <!-- Kama ni Home page, tunaweka container ili ipendeze. Kama ni Dashboard, tunaiacha full width -->
+            {% if request.resolver_match.url_name == 'home' or not user.is_authenticated %}
+                <div class="container mt-3">
+                    {% block content %}{% endblock %}
+                </div>
+            {% else %}
+                {% block content %}{% endblock %}
+            {% endif %}
         </main>
     </div>
 
-    <!-- Footer (Inaonekana tu kama mtu haja-login, ili isivuruge Dashboard) -->
-    {% if not user.is_authenticated %}
+    <!-- Footer: Inaonekana kila mahali isipokuwa kwenye kurasa za Dashboard zilizo na sidebar -->
+    {% if not user.is_authenticated or request.resolver_match.url_name == 'home' %}
     <footer class="footer-adminova text-center">
         <div class="container">
             <p class="mb-1 fw-bold">ADMINOVA CONSULTING SERVICES</p>
