@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Login — Adminova{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm mt-5">
+      <div class="card-body">
+        <h3 class="mb-3">Login</h3>
+        {% if form.errors %}
+          <div class="alert alert-danger">Invalid username or password.</div>
+        {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-adminova w-100">Login</button>
+        </form>
+        <p class="mt-3 mb-0 text-center">
+          Don't have an account? <a href="{% url 'accounts:register' %}">Register</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
