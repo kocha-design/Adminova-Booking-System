@@ -5,4 +5,5 @@ app_name = 'core'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    # Kama ulikuwa na path('welcome/', ...), inafaa pia
 ]
