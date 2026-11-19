@@ -1,32 +1,17 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block title %}Our Services — Adminova Consulting Services{% endblock %}
+{% extends 'dashboard_base.html' %}
+{% block title %}Our Services — Adminova System{% endblock %}
+{% block page_title %}Available Services{% endblock %}
 
 {% block content %}
-<div class="text-center mb-4">
-    <h1 class="section-title">Our Services</h1>
-    <p class="text-muted">Browse our 10 service categories and book what you need.</p>
-</div>
-
+<!-- Weka Grid ya services hapa kama ilivyokuwa -->
 <div class="row g-3">
     {% for service in services %}
     <div class="col-md-6 col-lg-4">
-        <div class="card card-service h-100 p-3">
-            <span class="service-category-badge mb-2 d-inline-block">{{ service.get_category_display }}</span>
-            <h5 class="card-title">{{ service.name }}</h5>
-            <p class="card-text text-muted small flex-grow-1">{{ service.description|truncatewords:20 }}</p>
-            {% if service.base_price %}
-            <p class="mb-2"><strong>From:</strong> TZS {{ service.base_price }}</p>
-            {% endif %}
-            <a href="{% url 'bookings:book_service' service.id %}" class="btn btn-adminova btn-sm mt-auto">
-                Book This Service
-            </a>
+        <div class="card h-100 p-3 border-0 shadow-sm" style="border-left: 4px solid #1F3A68;">
+            <h5 class="fw-bold" style="color: #1F3A68;">{{ service.name }}</h5>
+            <p class="text-muted small">{{ service.description|truncatewords:15 }}</p>
+            <a href="{% url 'bookings:book_service' service.id %}" class="btn btn-adminova btn-sm mt-auto">Book Now</a>
         </div>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info text-center">No services available at the moment.</div>
     </div>
     {% endfor %}
 </div>

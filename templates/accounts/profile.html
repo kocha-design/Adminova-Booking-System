@@ -1,37 +1,62 @@
-{% extends 'base.html' %}
-{% block title %}My Profile — Adminova{% endblock %}
+{% extends 'dashboard_base.html' %}
+
+{% block title %}My Profile — Adminova System{% endblock %}
+{% block page_title %}Account Settings{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6 col-lg-5">
-    <div class="card shadow-lg border-0" style="border-radius: 15px; margin-top: 40px;">
-      <div class="card-body p-5">
-        <div class="text-center mb-4">
-            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem; background-color: var(--adminova-navy) !important;">
-                {{ user.username|first|upper }}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <!-- Kadi ya kushoto: Picha na Taarifa za Msingi -->
+        <div class="card border-0 shadow-sm text-center py-4">
+            <div class="card-body">
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow" style="width: 100px; height: 100px; font-size: 2.5rem; background-color: var(--adminova-navy); color: white;">
+                    {{ user.username|first|upper }}
+                </div>
+                <h4 class="fw-bold mb-1">{{ user.username }}</h4>
+                <p class="badge bg-primary mb-3">{{ user.get_role_display }}</p>
+                <p class="text-muted small mb-0">Member since: {{ user.date_joined|date:"M Y" }}</p>
             </div>
-            <h3 class="fw-bold mb-0" style="color: var(--adminova-navy);">{{ user.username }}</h3>
-            <p class="text-muted small">Role: {{ user.get_role_display }}</p>
         </div>
-
-        <form method="post">
-          {% csrf_token %}
-          <div class="mb-3">
-            <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
-            <input type="email" name="email" class="form-control bg-light" value="{{ user.email }}" placeholder="your@email.com">
-          </div>
-          <div class="mb-4">
-            <label class="form-label text-muted small fw-bold">PHONE NUMBER</label>
-            <input type="text" name="phone" class="form-control bg-light" value="{{ user.phone }}" placeholder="+255 7XX XXX XXX">
-          </div>
-          <button type="submit" class="btn btn-adminova w-100 py-2" style="border-radius: 10px;">Update Profile</button>
-        </form>
-        
-        <div class="text-center mt-4">
-            <a href="{% url 'accounts:password_change' %}" class="text-decoration-none small text-muted">Change Password</a>
-        </div>
-      </div>
     </div>
-  </div>
+
+    <div class="col-md-8">
+        <!-- Kadi ya kulia: Fomu ya Kuhariri -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white pb-0 border-0 pt-4 px-4">
+                <h5 class="fw-bold" style="color: var(--adminova-navy);">Update Information</h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small fw-bold">USERNAME</label>
+                            <input type="text" class="form-control bg-light" value="{{ user.username }}" disabled>
+                            <small class="text-muted">Username cannot be changed.</small>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label class="form-label text-muted small fw-bold">ROLE</label>
+                            <input type="text" class="form-control bg-light" value="{{ user.get_role_display }}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" placeholder="your@email.com">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-muted small fw-bold">PHONE NUMBER</label>
+                        <input type="text" name="phone" class="form-control" value="{{ user.phone }}" placeholder="+255 7XX XXX XXX">
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <button type="submit" class="btn btn-adminova px-4">Save Changes</button>
+                        <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-secondary">Change Password</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,51 +1,33 @@
-{% extends 'base.html' %}
-
-{% block title %}My Bookings — Adminova{% endblock %}
+{% extends 'dashboard_base.html' %}
+{% block title %}My Bookings — Adminova System{% endblock %}
+{% block page_title %}My Bookings{% endblock %}
 
 {% block content %}
-<h2 class="section-title">My Bookings</h2>
-
-{% if bookings %}
+<!-- Weka table yako ya bookings hapa kama ilivyokuwa -->
 <div class="table-responsive">
-    <table class="table table-hover align-middle bg-white shadow-sm">
-        <thead style="background-color: var(--adminova-navy); color: white;">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
             <tr>
                 <th>#</th>
                 <th>Service</th>
-                <th>Preferred Date</th>
+                <th>Date</th>
                 <th>Status</th>
-                <th>Quoted Price</th>
-                <th>Submitted</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>
             {% for b in bookings %}
             <tr>
                 <td>{{ b.id }}</td>
-                <td>
-                    <strong>{{ b.service.name }}</strong><br>
-                    <small class="text-muted">{{ b.service.get_category_display }}</small>
-                </td>
+                <td>{{ b.service.name }}</td>
                 <td>{{ b.preferred_date|default:"—" }}</td>
                 <td><span class="badge badge-{{ b.status }}">{{ b.get_status_display }}</span></td>
-                <td>{% if b.quoted_price %}TZS {{ b.quoted_price }}{% else %}<span class="text-muted">Pending</span>{% endif %}</td>
-                <td><small>{{ b.created_at|date:"M d, Y H:i" }}</small></td>
+                <td>{% if b.quoted_price %}TZS {{ b.quoted_price }}{% else %}Pending{% endif %}</td>
             </tr>
-            {% if b.admin_notes %}
-            <tr>
-                <td></td>
-                <td colspan="5" class="small text-muted ps-3">
-                    <em>Admin note: {{ b.admin_notes }}</em>
-                </td>
-            </tr>
-            {% endif %}
+            {% empty %}
+            <tr><td colspan="5" class="text-center py-4">No bookings yet. <a href="{% url 'bookings:service_list' %}">Book a service</a></td></tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-{% else %}
-<div class="alert alert-info text-center">
-    You have no bookings yet. <a href="{% url 'bookings:service_list' %}">Browse services →</a>
-</div>
-{% endif %}
 {% endblock %}
