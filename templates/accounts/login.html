@@ -1,28 +1,31 @@
 {% extends 'base.html' %}
 {% block title %}Login — Adminova{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-5">
-    <div class="card shadow-sm mt-5">
-      <div class="card-body">
-        <h3 class="mb-3">Login</h3>
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-lg border-0" style="border-radius: 15px;">
+      <div class="card-body p-5">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold" style="color: var(--adminova-navy);">Welcome Back</h3>
+            <p class="text-muted small">Login to manage your bookings</p>
+        </div>
         {% if form.errors %}
-          <div class="alert alert-danger">Invalid username or password.</div>
+          <div class="alert alert-danger text-center small">Invalid username or password.</div>
         {% endif %}
         <form method="post">
           {% csrf_token %}
           <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control" required>
+            <label class="form-label text-muted small fw-bold">USERNAME</label>
+            <input type="text" name="username" class="form-control form-control-lg bg-light" required placeholder="Enter your username">
           </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required>
+          <div class="mb-4">
+            <label class="form-label text-muted small fw-bold">PASSWORD</label>
+            <input type="password" name="password" class="form-control form-control-lg bg-light" required placeholder="Enter your password">
           </div>
-          <button type="submit" class="btn btn-adminova w-100">Login</button>
+          <button type="submit" class="btn btn-adminova btn-lg w-100 py-2" style="border-radius: 10px;">Sign In</button>
         </form>
-        <p class="mt-3 mb-0 text-center">
-          Don't have an account? <a href="{% url 'accounts:register' %}">Register</a>
+        <p class="mt-4 mb-0 text-center text-muted small">
+          Don't have an account? <a href="{% url 'accounts:register' %}" style="color: var(--adminova-navy); font-weight: bold;">Create one now</a>
         </p>
       </div>
     </div>

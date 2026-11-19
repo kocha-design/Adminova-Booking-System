@@ -13,25 +13,30 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Navbar */
+/* Navbar refinement */
 .navbar-adminova {
-    background-color: var(--adminova-navy) !important;
+    padding: 12px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .navbar-adminova .navbar-brand img {
-    height: 42px;
     background: white;
     padding: 4px 8px;
-    border-radius: 4px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .navbar-adminova .nav-link {
-    color: rgba(255, 255, 255, 0.85) !important;
     font-weight: 500;
+    font-size: 1rem;
+    padding: 10px 15px !important;
 }
 
-.navbar-adminova .nav-link:hover {
-    color: var(--adminova-sky) !important;
+/* Tables responsiveness */
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
 }
 
 /* Buttons */

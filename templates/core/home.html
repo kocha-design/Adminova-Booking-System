@@ -4,38 +4,78 @@
 {% block title %}Home — Adminova Consulting Services{% endblock %}
 
 {% block content %}
-<div class="text-center py-5 mb-4" style="background: linear-gradient(135deg, #1F3A68 0%, #4FA3D1 100%); color: white; border-radius: 12px;">
-    <h1 class="display-4 fw-bold">Adminova Consulting Services</h1>
-    <p class="lead mb-1">Simplify. Grow. Succeed.</p>
-    <p class="mb-4">Professional business solutions — from consulting to procurement, all in one place.</p>
-    <a href="{% url 'bookings:service_list' %}" class="btn btn-light btn-lg fw-bold" style="color: #1F3A68;">
-        Browse Our Services
-    </a>
+<!-- Hero Section with Image Background -->
+<div class="position-relative text-white text-center d-flex align-items-center justify-content-center" 
+     style="background: linear-gradient(rgba(31, 58, 104, 0.85), rgba(79, 163, 209, 0.85)), url('{% static 'images/hero-bg.jpg' %}') center/cover no-repeat; min-height: 450px; border-radius: 12px; margin-top: -15px;">
+    <div class="container py-5">
+        <h1 class="display-3 fw-bold mb-3 shadow-sm">Adminova Consulting Services</h1>
+        <p class="lead mb-4 fs-4">Simplify. Grow. Succeed.</p>
+        <p class="mb-4 fs-5 text-light" style="max-width: 700px; margin: 0 auto;">Professional business solutions — from consulting and travel to procurement and technology. All in one trusted partner.</p>
+        <a href="{% url 'bookings:service_list' %}" class="btn btn-light btn-lg fw-bold px-4 py-2" style="color: #1F3A68; border-radius: 30px;">
+            Explore Our Services
+        </a>
+    </div>
 </div>
 
-<h2 class="section-title">What We Offer</h2>
-<div class="row g-3">
+<!-- Why Choose Us Section -->
+<div class="row text-center my-5 py-4">
+    <div class="col-md-4 mb-3">
+        <div class="p-3">
+            <h4 class="fw-bold" style="color: var(--adminova-navy);">10+ Services</h4>
+            <p class="text-muted small">From HR and travel to technology and procurement — we cover it all.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="p-3">
+            <h4 class="fw-bold" style="color: var(--adminova-navy);">Expert Team</h4>
+            <p class="text-muted small">Dedicated professionals ready to simplify your business operations.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="p-3">
+            <h4 class="fw-bold" style="color: var(--adminova-navy);">Trusted Partner</h4>
+            <p class="text-muted small">We help you grow and succeed with reliable, corporate-grade support.</p>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mb-4">
+    <h2 class="section-title">What We Offer</h2>
+    <p class="text-muted">Click on any service to book it instantly.</p>
+</div>
+
+<div class="row g-3 mb-5">
     <div class="col-md-4">
-        <div class="card card-service h-100 p-3">
-            <h5 class="card-title">Business Consulting</h5>
+        <div class="card card-service h-100 p-3 shadow-sm border-0">
+            <h5 class="card-title fw-bold">Business Consulting</h5>
             <p class="card-text text-muted small">Strategic advisory to help your business grow and stay compliant.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card card-service h-100 p-3">
-            <h5 class="card-title">Travel &amp; Logistics</h5>
+        <div class="card card-service h-100 p-3 shadow-sm border-0">
+            <h5 class="card-title fw-bold">Travel &amp; Logistics</h5>
             <p class="card-text text-muted small">Ticketing, hotel bookings, airport transfers, and corporate travel.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card card-service h-100 p-3">
-            <h5 class="card-title">Technology &amp; Procurement</h5>
+        <div class="card card-service h-100 p-3 shadow-sm border-0">
+            <h5 class="card-title fw-bold">Technology &amp; Procurement</h5>
             <p class="card-text text-muted small">Tracking systems, data management, office supplies, and general trading.</p>
         </div>
     </div>
 </div>
 
-<div class="text-center mt-5">
-    <a href="{% url 'bookings:service_list' %}" class="btn btn-adminova btn-lg">View All 10 Services →</a>
+<div class="text-center pb-5">
+    <a href="{% url 'bookings:service_list' %}" class="btn btn-adminova btn-lg px-4 py-2" style="border-radius: 30px;">View All 10 Services →</a>
 </div>
+
+<!-- Call to Action -->
+<div class="card border-0 shadow-lg mb-5" style="background: linear-gradient(135deg, #1F3A68 0%, #4FA3D1 100%); color: white;">
+    <div class="card-body text-center p-5">
+        <h2 class="fw-bold mb-3">Ready to grow your business?</h2>
+        <p class="lead mb-4">Create an account today and start booking professional services in minutes.</p>
+        <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg fw-bold px-5 py-2" style="color: #1F3A68; border-radius: 30px;">Get Started Now</a>
+    </div>
+</div>
+
 {% endblock %}

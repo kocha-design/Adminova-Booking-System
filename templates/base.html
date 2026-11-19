@@ -11,9 +11,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-adminova">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'core:home' %}">
-                <img src="{% static 'images/adminova_logo.png' %}" alt="Adminova Consulting Services">
-            </a>
+<a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'core:home' %}">
+    <img src="{% static 'images/adminova_logo.png' %}" alt="Adminova Logo" style="height: 50px; width: auto; background: white; padding: 5px; border-radius: 6px;">
+    <span class="d-none d-md-inline" style="font-weight: 700; letter-spacing: 1px; color: white;">ADMINOVA</span>
+</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                 <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
             </button>
