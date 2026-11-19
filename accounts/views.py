@@ -119,3 +119,28 @@ def create_user(request):
         return redirect('accounts:manage_users')
 
     return render(request, 'accounts/create_user.html')
+
+@login_required
+def toggle_user_status(request, user_id):
+    # Ruhusu Super Admin tu
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied.")
+        return redirect('accounts:manage_users')
+
+    target_user = get_object_or_404(CustomUser, id=user_id)
+    
+    # Super Admin hawezi kujizuia yeye mwenyewe
+    if target_user.is_superuser:
+        messages.error(request, "You cannot deactivate a Super Admin.")
+        return redirect('accounts:manage_users')
+
+    # Badilisha status (active <-> inactive)
+    if target_user.is_active:
+        target_user.is_active = False
+        messages.success(request, f"User '{target_user.username}' has been deactivated. They can no longer log in.")
+    else:
+        target_user.is_active = True
+        messages.success(request, f"User '{target_user.username}' has been activated. They can now log in again.")
+
+    target_user.save()
+    return redirect('accounts:manage_users')

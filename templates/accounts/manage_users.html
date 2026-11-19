@@ -27,7 +27,8 @@
                 <th class="py-3 border-0 text-muted small fw-bold">CONTACT</th>
                 <th class="py-3 border-0 text-muted small fw-bold">JOINED</th>
                 <th class="py-3 border-0 text-muted small fw-bold">CURRENT ROLE</th>
-                <th class="py-3 px-4 border-0 text-muted small fw-bold">CHANGE ROLE</th>
+                <th class="py-3 border-0 text-muted small fw-bold">STATUS</th>
+                <th class="py-3 px-4 border-0 text-muted small fw-bold">CHANGE ROLE & ACTIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +41,6 @@
                         </div>
                         <div>
                             <span class="fw-bold text-dark d-block">{{ u.username }}</span>
-                            <!-- ID ya Mtumiaji Inaonekana Hapa -->
                             <small class="text-primary fw-bold">{{ u.user_id|default:"No ID" }}</small>
                             {% if u.is_superuser %}
                                 <br><small class="text-danger fw-bold"><i class="bi bi-shield-lock"></i> Super Admin</small>
@@ -58,32 +58,53 @@
                     {% elif u.role == 'worker' %}<span class="badge bg-primary px-3 py-2 rounded-pill">Worker</span>
                     {% else %}<span class="badge bg-success px-3 py-2 rounded-pill">Customer</span>{% endif %}
                 </td>
-                <td class="px-4">
-                    <!-- 1. Super Admin hawezi kubadilisha role yake mwenyewe -->
-                    {% if u.is_superuser %}
-                        <span class="text-muted small fst-italic">Cannot change</span>
-                    
-                    <!-- 2. Super Admin anaweza kubadilisha role ya mtu mwingine -->
-                    {% elif user.is_superuser %}
-                        <form method="post" action="{% url 'accounts:update_user_role' u.id %}" class="d-flex gap-2">
-                            {% csrf_token %}
-                            <select name="role" class="form-select form-select-sm bg-light border-0" style="max-width: 130px;">
-                                <option value="customer" {% if u.role == 'customer' %}selected{% endif %}>Customer</option>
-                                <option value="worker" {% if u.role == 'worker' %}selected{% endif %}>Worker</option>
-                                <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>Admin</option>
-                            </select>
-                            <button type="submit" class="btn btn-sm text-white" style="background-color: var(--adminova-navy);">Save</button>
-                        </form>
-                    
-                    <!-- 3. Mtu mwingine yeyote hawezi kubadilisha role -->
+                <td>
+                    {% if u.is_active %}
+                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill"><i class="bi bi-check-circle me-1"></i> Active</span>
                     {% else %}
-                        <span class="text-muted small fst-italic">Only Super Admin can change roles</span>
+                        <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill"><i class="bi bi-x-circle me-1"></i> Inactive</span>
                     {% endif %}
+                </td>
+                <td class="px-4">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <!-- Sehemu ya Kubadilisha Role -->
+                        {% if u.is_superuser %}
+                            <span class="text-muted small fst-italic">Cannot change</span>
+                        {% elif user.is_superuser %}
+                            <form method="post" action="{% url 'accounts:update_user_role' u.id %}" class="d-flex gap-1">
+                                {% csrf_token %}
+                                <select name="role" class="form-select form-select-sm bg-light border-0" style="max-width: 100px;">
+                                    <option value="customer" {% if u.role == 'customer' %}selected{% endif %}>Customer</option>
+                                    <option value="worker" {% if u.role == 'worker' %}selected{% endif %}>Worker</option>
+                                    <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>Admin</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm text-white" style="background-color: var(--adminova-navy);">Save</button>
+                            </form>
+                        {% else %}
+                            <span class="text-muted small fst-italic">Only Super Admin can change roles</span>
+                        {% endif %}
+
+                        <!-- Kitufe cha Deactivate/Activate (Kwa Super Admin tu) -->
+                        {% if user.is_superuser and not u.is_superuser %}
+                        <form method="post" action="{% url 'accounts:toggle_user_status' u.id %}" class="ms-2">
+                            {% csrf_token %}
+                            {% if u.is_active %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Deactivate User" onclick="return confirm('Are you sure you want to deactivate {{ u.username }}? They will not be able to log in.')">
+                                    <i class="bi bi-power"></i>
+                                </button>
+                            {% else %}
+                                <button type="submit" class="btn btn-sm btn-outline-success" title="Activate User">
+                                    <i class="bi bi-check-circle"></i>
+                                </button>
+                            {% endif %}
+                        </form>
+                        {% endif %}
+                    </div>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5" class="text-center py-5">
+                <td colspan="6" class="text-center py-5">
                     <i class="bi bi-people text-muted" style="font-size: 3rem; opacity: 0.5;"></i>
                     <p class="text-muted mt-2">No users registered yet.</p>
                 </td>

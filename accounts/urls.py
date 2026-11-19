@@ -16,4 +16,5 @@ urlpatterns = [
     path('manage-users/', views.manage_users, name='manage_users'),
     path('update-role/<int:user_id>/', views.update_user_role, name='update_user_role'),
     path('manage-users/create/', views.create_user, name='create_user'),
+    path('manage-users/toggle-status/<int:user_id>/', views.toggle_user_status, name='toggle_user_status'),
 ]
