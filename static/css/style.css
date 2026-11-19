@@ -1,34 +1,134 @@
 :root {
-    --adminova-purple: #7B23A7;
-    --adminova-cream: #FFFFF9;
+    --adminova-navy: #1F3A68;
+    --adminova-navy-dark: #142a4f;
+    --adminova-sky: #4FA3D1;
+    --adminova-sky-light: #e8f4fb;
+    --adminova-white: #FFFFFF;
+    --adminova-gray: #f5f7fa;
 }
 
 body {
-    background-color: var(--adminova-cream);
+    background-color: var(--adminova-gray);
+    color: #1a1a1a;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Navbar */
+.navbar-adminova {
+    background-color: var(--adminova-navy) !important;
+}
+
+.navbar-adminova .navbar-brand img {
+    height: 42px;
+    background: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.navbar-adminova .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 500;
+}
+
+.navbar-adminova .nav-link:hover {
+    color: var(--adminova-sky) !important;
+}
+
+/* Buttons */
 .btn-adminova {
-    background-color: var(--adminova-purple);
+    background-color: var(--adminova-navy);
     color: white;
     border: none;
+    padding: 8px 20px;
+    font-weight: 500;
 }
 
 .btn-adminova:hover {
-    background-color: #5a1a7a;
+    background-color: var(--adminova-navy-dark);
     color: white;
 }
 
+.btn-adminova-outline {
+    background-color: transparent;
+    color: var(--adminova-navy);
+    border: 2px solid var(--adminova-navy);
+    padding: 8px 20px;
+    font-weight: 500;
+}
+
+.btn-adminova-outline:hover {
+    background-color: var(--adminova-navy);
+    color: white;
+}
+
+.btn-adminova-sky {
+    background-color: var(--adminova-sky);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-weight: 500;
+}
+
+.btn-adminova-sky:hover {
+    background-color: #3a8bbd;
+    color: white;
+}
+
+/* Cards */
 .card-service {
-    border-left: 4px solid var(--adminova-purple);
-    transition: transform 0.2s;
+    border-left: 4px solid var(--adminova-sky);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: white;
 }
 
 .card-service:hover {
     transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(31, 58, 104, 0.15);
+    border-left-color: var(--adminova-navy);
 }
 
+.card-service .card-title {
+    color: var(--adminova-navy);
+    font-weight: 600;
+}
+
+.service-category-badge {
+    background-color: var(--adminova-sky-light);
+    color: var(--adminova-navy);
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+/* Footer */
+.footer-adminova {
+    background-color: var(--adminova-navy);
+    color: white;
+    padding: 20px 0;
+    margin-top: 60px;
+}
+
+/* Status badges */
+.badge-pending { background-color: #ffc107; color: #000; }
+.badge-confirmed { background-color: var(--adminova-sky); color: white; }
+.badge-in_progress { background-color: #0d6efd; color: white; }
+.badge-completed { background-color: #198754; color: white; }
+.badge-cancelled { background-color: #dc3545; color: white; }
+
+/* Section headings */
+.section-title {
+    color: var(--adminova-navy);
+    font-weight: 700;
+    border-bottom: 3px solid var(--adminova-sky);
+    display: inline-block;
+    padding-bottom: 6px;
+    margin-bottom: 24px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .display-4 { font-size: 2rem; }
     .card-service { margin-bottom: 1rem; }
+    .navbar-adminova .navbar-brand img { height: 36px; }
 }

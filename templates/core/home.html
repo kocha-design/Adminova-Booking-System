@@ -1,9 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home — Adminova Consulting Services{% endblock %}
 
 {% block content %}
-<h1 class="display-4">Welcome to Adminova Consulting Services</h1>
-<p class="lead">Professional business solutions, tailored for you.</p>
-<a href="{% url 'bookings:service_list' %}" class="btn btn-adminova btn-lg">Browse Our Services</a>
+<div class="text-center py-5 mb-4" style="background: linear-gradient(135deg, #1F3A68 0%, #4FA3D1 100%); color: white; border-radius: 12px;">
+    <h1 class="display-4 fw-bold">Adminova Consulting Services</h1>
+    <p class="lead mb-1">Simplify. Grow. Succeed.</p>
+    <p class="mb-4">Professional business solutions — from consulting to procurement, all in one place.</p>
+    <a href="{% url 'bookings:service_list' %}" class="btn btn-light btn-lg fw-bold" style="color: #1F3A68;">
+        Browse Our Services
+    </a>
+</div>
+
+<h2 class="section-title">What We Offer</h2>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card card-service h-100 p-3">
+            <h5 class="card-title">Business Consulting</h5>
+            <p class="card-text text-muted small">Strategic advisory to help your business grow and stay compliant.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-service h-100 p-3">
+            <h5 class="card-title">Travel &amp; Logistics</h5>
+            <p class="card-text text-muted small">Ticketing, hotel bookings, airport transfers, and corporate travel.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-service h-100 p-3">
+            <h5 class="card-title">Technology &amp; Procurement</h5>
+            <p class="card-text text-muted small">Tracking systems, data management, office supplies, and general trading.</p>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <a href="{% url 'bookings:service_list' %}" class="btn btn-adminova btn-lg">View All 10 Services →</a>
+</div>
 {% endblock %}
