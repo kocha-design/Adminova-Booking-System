@@ -32,7 +32,6 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
                         <li class="nav-item ms-lg-2"><a class="btn btn-light btn-sm fw-bold rounded-pill px-3" style="color: var(--adminova-navy);" href="{% url 'accounts:register' %}">Register</a></li>
                     {% else %}
-                        <!-- Hapa tunaonyesha menu za haraka kwenye navbar -->
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'bookings:service_list' %}">Services</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'bookings:my_bookings' %}">My Bookings</a></li>
                         {% if user.is_company_staff %}
@@ -76,14 +75,10 @@
                 </div>
             {% endif %}
 
-            <!-- Kama ni Home page, tunaweka container ili ipendeze. Kama ni Dashboard, tunaiacha full width -->
-            {% if request.resolver_match.url_name == 'home' or not user.is_authenticated %}
-                <div class="container mt-3">
-                    {% block content %}{% endblock %}
-                </div>
-            {% else %}
+            <!-- Content Wrapper -->
+            <div class="{% if request.resolver_match.url_name == 'home' or not user.is_authenticated %}container mt-3{% endif %}">
                 {% block content %}{% endblock %}
-            {% endif %}
+            </div>
         </main>
     </div>
 
