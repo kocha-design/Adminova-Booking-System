@@ -4,55 +4,73 @@
 {% block page_title %}Account Settings{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-4 mb-4">
-        <!-- Kadi ya kushoto: Picha na Taarifa za Msingi -->
-        <div class="card border-0 shadow-sm text-center py-4">
-            <div class="card-body">
-                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow" style="width: 100px; height: 100px; font-size: 2.5rem; background-color: var(--adminova-navy); color: white;">
+<div class="row g-4">
+    <!-- Kadi ya Kushoto: Picha na Taarifa za Msingi -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden text-center">
+            <!-- Sehemu ya Juu: Rangi ya Navy Blue -->
+            <div style="height: 100px; background: linear-gradient(135deg, var(--adminova-navy) 0%, var(--adminova-sky) 100%);"></div>
+            
+            <div class="card-body" style="margin-top: -50px;">
+                <!-- Avatar Kubwa -->
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow border border-4 border-white" 
+                     style="width: 100px; height: 100px; font-size: 2.5rem; background-color: var(--adminova-navy); color: white;">
                     {{ user.username|first|upper }}
                 </div>
+                
                 <h4 class="fw-bold mb-1">{{ user.username }}</h4>
-                <p class="badge bg-primary mb-3">{{ user.get_role_display }}</p>
-                <p class="text-muted small mb-0">Member since: {{ user.date_joined|date:"M Y" }}</p>
+                <p class="text-muted small mb-2">ID: <span class="fw-bold text-dark">{{ user.user_id|default:"N/A" }}</span></p>
+                
+                <span class="badge rounded-pill px-3 py-2 mb-3" style="background-color: var(--adminova-sky); color: white;">
+                    {{ user.get_role_display }}
+                </span>
+                
+                <hr class="text-muted opacity-25">
+                <p class="text-muted small mb-0"><i class="bi bi-calendar3 me-1"></i> Member since: {{ user.date_joined|date:"M Y" }}</p>
             </div>
         </div>
     </div>
 
+    <!-- Kadi ya Kulia: Fomu ya Kuhariri -->
     <div class="col-md-8">
-        <!-- Kadi ya kulia: Fomu ya Kuhariri -->
-        <div class="card border-0 shadow-sm">
+        <div class="card border-0 shadow-sm rounded-4">
             <div class="card-header bg-white pb-0 border-0 pt-4 px-4">
-                <h5 class="fw-bold" style="color: var(--adminova-navy);">Update Information</h5>
+                <h5 class="fw-bold mb-0" style="color: var(--adminova-navy);"><i class="bi bi-pencil-square me-2"></i>Update Information</h5>
             </div>
             <div class="card-body p-4">
                 <form method="post">
                     {% csrf_token %}
-                    <div class="row mb-3">
+                    
+                    <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label text-muted small fw-bold">USERNAME</label>
-                            <input type="text" class="form-control bg-light" value="{{ user.username }}" disabled>
-                            <small class="text-muted">Username cannot be changed.</small>
+                            <input type="text" class="form-control bg-light border-0" value="{{ user.username }}" disabled>
+                            <small class="text-muted" style="font-size: 0.75rem;">Username cannot be changed.</small>
                         </div>
                         <div class="col-md-6 mt-3 mt-md-0">
-                            <label class="form-label text-muted small fw-bold">ROLE</label>
-                            <input type="text" class="form-control bg-light" value="{{ user.get_role_display }}" disabled>
+                            <label class="form-label text-muted small fw-bold">USER ID</label>
+                            <input type="text" class="form-control bg-light border-0" value="{{ user.user_id|default:'N/A' }}" disabled>
+                            <small class="text-muted" style="font-size: 0.75rem;">Assigned by system.</small>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
-                        <input type="email" name="email" class="form-control" value="{{ user.email }}" placeholder="your@email.com">
+                        <input type="email" name="email" class="form-control bg-light border-0" value="{{ user.email }}" placeholder="your@email.com">
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label text-muted small fw-bold">PHONE NUMBER</label>
-                        <input type="text" name="phone" class="form-control" value="{{ user.phone }}" placeholder="+255 7XX XXX XXX">
+                        <input type="text" name="phone" class="form-control bg-light border-0" value="{{ user.phone }}" placeholder="+255 7XX XXX XXX">
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <button type="submit" class="btn btn-adminova px-4">Save Changes</button>
-                        <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-secondary">Change Password</a>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 border-top pt-3">
+                        <button type="submit" class="btn text-white px-4 py-2" style="background-color: var(--adminova-navy); border-radius: 8px;">
+                            <i class="bi bi-check2-circle me-1"></i> Save Changes
+                        </button>
+                        <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 8px;">
+                            <i class="bi bi-lock me-1"></i> Change Password
+                        </a>
                     </div>
                 </form>
             </div>

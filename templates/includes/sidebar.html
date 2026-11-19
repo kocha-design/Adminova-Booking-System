@@ -65,7 +65,7 @@
         </div>
         <div class="flex-grow-1">
             <p class="mb-0 fw-bold text-white small">{{ user.username }}</p>
-            <p class="mb-0 text-secondary" style="font-size: 0.75rem;">{{ user.get_role_display }}</p>
+            <p class="mb-0 text-secondary" style="font-size: 0.75rem;">{{ user.user_id|default:"N/A" }} — {{ user.get_role_display }}</p>
         </div>
         <form method="post" action="{% url 'accounts:logout' %}">
             {% csrf_token %}
