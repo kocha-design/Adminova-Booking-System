@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings — Adminova{% endblock %}
+
+{% block content %}
+<h2 class="section-title">My Bookings</h2>
+
+{% if bookings %}
+<div class="table-responsive">
+    <table class="table table-hover align-middle bg-white shadow-sm">
+        <thead style="background-color: var(--adminova-navy); color: white;">
+            <tr>
+                <th>#</th>
+                <th>Service</th>
+                <th>Preferred Date</th>
+                <th>Status</th>
+                <th>Quoted Price</th>
+                <th>Submitted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bookings %}
+            <tr>
+                <td>{{ b.id }}</td>
+                <td>
+                    <strong>{{ b.service.name }}</strong><br>
+                    <small class="text-muted">{{ b.service.get_category_display }}</small>
+                </td>
+                <td>{{ b.preferred_date|default:"—" }}</td>
+                <td><span class="badge badge-{{ b.status }}">{{ b.get_status_display }}</span></td>
+                <td>{% if b.quoted_price %}TZS {{ b.quoted_price }}{% else %}<span class="text-muted">Pending</span>{% endif %}</td>
+                <td><small>{{ b.created_at|date:"M d, Y H:i" }}</small></td>
+            </tr>
+            {% if b.admin_notes %}
+            <tr>
+                <td></td>
+                <td colspan="5" class="small text-muted ps-3">
+                    <em>Admin note: {{ b.admin_notes }}</em>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info text-center">
+    You have no bookings yet. <a href="{% url 'bookings:service_list' %}">Browse services →</a>
+</div>
+{% endif %}
+{% endblock %}

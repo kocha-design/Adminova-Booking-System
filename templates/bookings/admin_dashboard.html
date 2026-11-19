@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard — Adminova{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h2 class="section-title mb-0">All Bookings</h2>
+    <span class="badge" style="background-color: var(--adminova-sky);">{{ bookings|length }} total</span>
+</div>
+
+{% if bookings %}
+<div class="table-responsive">
+    <table class="table table-hover align-middle bg-white shadow-sm">
+        <thead style="background-color: var(--adminova-navy); color: white;">
+            <tr>
+                <th>#</th>
+                <th>Customer</th>
+                <th>Service</th>
+                <th>Details</th>
+                <th>Status</th>
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bookings %}
+            <tr>
+                <td>{{ b.id }}</td>
+                <td>
+                    <strong>{{ b.customer.username }}</strong><br>
+                    <small class="text-muted">{{ b.customer.phone|default:b.customer.email }}</small>
+                </td>
+                <td>
+                    {{ b.service.name }}<br>
+                    <small class="text-muted">{{ b.service.get_category_display }}</small>
+                </td>
+                <td style="max-width: 260px;">
+                    <small>{{ b.details|truncatewords:15 }}</small>
+                    {% if b.preferred_date %}<br><small class="text-muted">Preferred: {{ b.preferred_date }}</small>{% endif %}
+                </td>
+                <td><span class="badge badge-{{ b.status }}">{{ b.get_status_display }}</span></td>
+                <td>
+                    <form method="post" action="{% url 'bookings:update_booking_status' b.id %}" class="d-flex flex-column gap-1">
+                        {% csrf_token %}
+                        <select name="status" class="form-select form-select-sm">
+                            {% for key, label in b.STATUS_CHOICES %}
+                            <option value="{{ key }}" {% if b.status == key %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="number" name="quoted_price" class="form-control form-control-sm"
+                               placeholder="Quoted price" value="{{ b.quoted_price|default_if_none:'' }}" step="0.01">
+                        <input type="text" name="admin_notes" class="form-control form-control-sm"
+                               placeholder="Admin note" value="{{ b.admin_notes }}">
+                        <button type="submit" class="btn btn-adminova btn-sm">Save</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info text-center">No bookings yet.</div>
+{% endif %}
+{% endblock %}

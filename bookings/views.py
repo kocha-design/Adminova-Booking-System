@@ -40,3 +40,27 @@ def admin_dashboard(request):
         return redirect('core:home')
     bookings = Booking.objects.all().order_by('-created_at')
     return render(request, 'bookings/admin_dashboard.html', {'bookings': bookings})
+
+@login_required
+def update_booking_status(request, booking_id):
+    if not request.user.is_company_staff():
+        messages.error(request, "Access denied.")
+        return redirect('core:home')
+
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        quoted_price = request.POST.get('quoted_price')
+        admin_notes = request.POST.get('admin_notes', '')
+
+        if new_status in dict(Booking.STATUS_CHOICES):
+            booking.status = new_status
+            if quoted_price:
+                booking.quoted_price = quoted_price
+            if admin_notes:
+                booking.admin_notes = admin_notes
+            booking.save()
+            messages.success(request, f"Booking #{booking.id} updated successfully.")
+
+    return redirect('bookings:admin_dashboard')
