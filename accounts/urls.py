@@ -9,4 +9,9 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='core:home'), name='logout'),
     path('register/', views.register_view, name='register'),
     path('profile/', views.profile_view, name='profile'),
+        # Password Change URLs
+    path('password-change/', auth_views.PasswordChangeView.as_view(
+        template_name='accounts/password_change.html', 
+        success_url='/accounts/profile/'
+    ), name='password_change'),
 ]
