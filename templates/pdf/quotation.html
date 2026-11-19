@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        .header { text-align: center; border-bottom: 2px solid #1F3A68; padding-bottom: 10px; margin-bottom: 20px; }
+        .header h1 { color: #1F3A68; margin: 0; }
+        .info { margin-bottom: 20px; }
+        .info table { width: 100%; }
+        .info td { padding: 5px; }
+        .table-items { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-items th, .table-items td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .table-items th { background-color: #f2f2f2; }
+        .total { text-align: right; margin-top: 20px; font-size: 16px; font-weight: bold; color: #1F3A68; }
+        .footer { margin-top: 50px; text-align: center; font-size: 10px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ADMINOVA CONSULTING SERVICES</h1>
+        <p>Simplify. Grow. Succeed.</p>
+    </div>
+    <h2>QUOTATION</h2>
+    <div class="info">
+        <table>
+            <tr><td><strong>Quotation No:</strong> QT-{{ booking.id }}</td><td><strong>Date:</strong> {{ booking.created_at|date:"M d, Y" }}</td></tr>
+            <tr><td><strong>Customer:</strong> {{ booking.customer.username }} ({{ booking.customer.user_id }})</td><td><strong>Status:</strong> {{ booking.get_status_display }}</td></tr>
+        </table>
+    </div>
+    <table class="table-items">
+        <thead>
+            <tr><th>Service</th><th>Description</th><th>Amount (TZS)</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ booking.service.name }}</td>
+                <td>{{ booking.details }}</td>
+                <td>{{ booking.quoted_price|default:"TBD" }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="total">
+        Total: TZS {{ booking.quoted_price|default:"0.00" }}
+    </div>
+    <div class="footer">
+        <p>Adminova Consulting Services | info@adminova.co.tz | +255 613 950 508</p>
+        <p>This is a system-generated quotation.</p>
+    </div>
+</body>
+</html>

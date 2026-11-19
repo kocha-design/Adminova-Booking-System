@@ -142,3 +142,6 @@ MAILERS = {
 # Badilisha hizi
 LOGIN_REDIRECT_URL = 'bookings:my_bookings'  # Mteja aki-login, apelekwe kwenye bookings zake
 LOGOUT_REDIRECT_URL = 'core:home'            # Akitoka (logout), arudi Home
+
+# WeasyPrint Settings
+WEASYPRINT_BASEURL = '/'

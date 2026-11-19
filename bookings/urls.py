@@ -14,4 +14,8 @@ urlpatterns = [
     path('manage-services/create/', views.service_form, name='create_service'),
     path('manage-services/edit/<int:service_id>/', views.service_form, name='edit_service'),
     path('manage-services/delete/<int:service_id>/', views.delete_service, name='delete_service'),
+    
+    path('pdf/quotation/<int:booking_id>/', views.download_quotation, name='download_quotation'),
+    path('pdf/receipt/<int:booking_id>/', views.download_receipt, name='download_receipt'),
+    path('pdf/confirmation/<int:booking_id>/', views.download_confirmation, name='download_confirmation'),
 ]

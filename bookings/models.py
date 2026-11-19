@@ -33,6 +33,7 @@ class Booking(models.Model):
         ('in_progress', 'In Progress'),
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
+        ('rejected', 'Rejected'), # Ongeza hii
     ]
 
     customer = models.ForeignKey(
