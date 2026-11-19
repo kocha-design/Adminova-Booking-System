@@ -34,6 +34,10 @@ def book_service(request, service_id):
 
 @login_required
 def my_bookings(request):
+    # Kama ni Admin/Worker, mpeleke kwenye admin_dashboard badala ya my_bookings
+    if request.user.is_company_staff():
+        return redirect('bookings:admin_dashboard')
+
     bookings = Booking.objects.filter(customer=request.user).order_by('-created_at')
     return render(request, 'bookings/my_bookings.html', {'bookings': bookings})
 
