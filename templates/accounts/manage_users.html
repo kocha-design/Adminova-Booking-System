@@ -10,8 +10,8 @@
         <span class="badge rounded-pill px-3 py-2" style="background-color: var(--adminova-sky); font-size: 0.9rem;">
             {{ users|length }} Total Users
         </span>
-        <!-- Kitufe Kipya cha Kuongeza Worker -->
-             <a href="{% url 'accounts:create_user' %}" class="btn text-white shadow-sm px-3 py-2 rounded-pill" style="background-color: var(--adminova-navy);">
+        <!-- Kitufe cha Kuongeza Mtumiaji Mpya -->
+        <a href="{% url 'accounts:create_user' %}" class="btn text-white shadow-sm px-3 py-2 rounded-pill" style="background-color: var(--adminova-navy);">
             <i class="bi bi-person-plus me-1"></i> Add New User
         </a>
     </div>
@@ -38,8 +38,10 @@
                         </div>
                         <div>
                             <span class="fw-bold text-dark d-block">{{ u.username }}</span>
+                            <!-- ID ya Mtumiaji Inaonekana Hapa -->
+                            <small class="text-primary fw-bold">{{ u.user_id|default:"No ID" }}</small>
                             {% if u.is_superuser %}
-                                <small class="text-danger fw-bold"><i class="bi bi-shield-lock"></i> Super Admin</small>
+                                <br><small class="text-danger fw-bold"><i class="bi bi-shield-lock"></i> Super Admin</small>
                             {% endif %}
                         </div>
                     </div>
