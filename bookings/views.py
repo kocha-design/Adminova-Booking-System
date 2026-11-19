@@ -64,3 +64,73 @@ def update_booking_status(request, booking_id):
             messages.success(request, f"Booking #{booking.id} updated successfully.")
 
     return redirect('bookings:admin_dashboard')
+
+# 1. View ya Kuonyesha Huduma Zote kwa Admin
+@login_required
+def manage_services(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied.")
+        return redirect('bookings:my_bookings')
+    
+    # Chukua huduma zote (zilizofichwa na zilizo hai)
+    services = Service.objects.all().order_by('category')
+    return render(request, 'bookings/manage_services.html', {'services': services})
+
+
+# 2. View ya Kuongeza au Kurekebisha Huduma
+@login_required
+def service_form(request, service_id=None):
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied.")
+        return redirect('bookings:my_bookings')
+
+    # Kama service_id imetolewa, tuna-edit. Kama haipo, tunaunda mpya.
+    if service_id:
+        service = get_object_or_404(Service, id=service_id)
+    else:
+        service = None
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        category = request.POST.get('category')
+        description = request.POST.get('description')
+        base_price = request.POST.get('base_price') or None
+        is_active = request.POST.get('is_active') == 'on'
+
+        if service:
+            # Update iliyopo
+            service.name = name
+            service.category = category
+            service.description = description
+            service.base_price = base_price
+            service.is_active = is_active
+            service.save()
+            messages.success(request, f"Service '{name}' updated successfully.")
+        else:
+            # Tengeneza mpya
+            Service.objects.create(
+                name=name,
+                category=category,
+                description=description,
+                base_price=base_price,
+                is_active=is_active
+            )
+            messages.success(request, f"Service '{name}' created successfully.")
+
+        return redirect('bookings:manage_services')
+
+    return render(request, 'bookings/service_form.html', {'service': service})
+
+
+# 3. View ya Kufuta Huduma
+@login_required
+def delete_service(request, service_id):
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied.")
+        return redirect('bookings:my_bookings')
+
+    service = get_object_or_404(Service, id=service_id)
+    service_name = service.name
+    service.delete()
+    messages.success(request, f"Service '{service_name}' deleted successfully.")
+    return redirect('bookings:manage_services')

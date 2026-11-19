@@ -1,0 +1,64 @@
+{% extends 'dashboard_base.html' %}
+{% block title %}{% if service %}Edit Service{% else %}Add Service{% endif %} — Adminova{% endblock %}
+{% block page_title %}{% if service %}Edit Service{% else %}Add New Service{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-5">
+                
+                <h4 class="fw-bold mb-4" style="color: var(--adminova-navy);">
+                    {% if service %}Update Existing Service{% else %}Create New Service{% endif %}
+                </h4>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label text-muted small fw-bold">SERVICE NAME</label>
+                            <input type="text" name="name" class="form-control bg-light" required value="{{ service.name|default:'' }}" placeholder="e.g. Business Consulting & Corporate Advisory">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small fw-bold">CATEGORY</label>
+                            <select name="category" class="form-select bg-light" required>
+                                <option value="">Select Category...</option>
+                                {% for key, label in service.SERVICE_CATEGORIES %}
+                                    <option value="{{ key }}" {% if service.category == key %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">DESCRIPTION</label>
+                        <textarea name="description" class="form-control bg-light" rows="4" required placeholder="Explain what this service does...">{{ service.description|default:'' }}</textarea>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small fw-bold">BASE PRICE (TZS)</label>
+                            <input type="number" name="base_price" class="form-control bg-light" step="0.01" value="{{ service.base_price|default:'' }}" placeholder="e.g. 500000">
+                            <small class="text-muted" style="font-size: 0.75rem;">Leave blank if price varies.</small>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="form-check form-switch mt-4">
+                                <input class="form-check-input" type="checkbox" name="is_active" id="isActive" {% if service.is_active or not service %}checked{% endif %}>
+                                <label class="form-check-label fw-bold small text-dark" for="isActive">Visible to Customers (Active)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn text-white w-100 py-2" style="background-color: var(--adminova-navy);">
+                            {% if service %}Save Changes{% else %}Create Service{% endif %}
+                        </button>
+                        <a href="{% url 'bookings:manage_services' %}" class="btn btn-outline-secondary w-50 py-2">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
