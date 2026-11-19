@@ -1,6 +1,6 @@
 {% extends 'dashboard_base.html' %}
-{% block title %}Add New Worker — Adminova{% endblock %}
-{% block page_title %}Add New Worker{% endblock %}
+{% block title %}Add New User — Adminova{% endblock %}
+{% block page_title %}Add New User{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
@@ -12,8 +12,8 @@
                     <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
                         <i class="bi bi-person-plus fs-1"></i>
                     </div>
-                    <h4 class="fw-bold" style="color: var(--adminova-navy);">Create Worker Account</h4>
-                    <p class="text-muted small">Weka taarifa za mfanyakazi mpya. Atatumia hizi kuingia kwenye mfumo.</p>
+                    <h4 class="fw-bold" style="color: var(--adminova-navy);">Create New Account</h4>
+                    <p class="text-muted small">Weka taarifa za mteja au mfanyakazi mpya. Atatumia hizi kuingia kwenye mfumo.</p>
                 </div>
 
                 {% if messages %}
@@ -32,7 +32,7 @@
 
                     <div class="mb-3">
                         <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
-                        <input type="email" name="email" class="form-control bg-light" required placeholder="worker@adminova.com">
+                        <input type="email" name="email" class="form-control bg-light" required placeholder="user@example.com">
                     </div>
 
                     <div class="mb-3">
@@ -47,15 +47,16 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label text-muted small fw-bold">ROLE</label>
+                        <label class="form-label text-muted small fw-bold">ACCOUNT ROLE</label>
                         <select name="role" class="form-select bg-light">
-                            <option value="worker">Worker (Standard access)</option>
-                            <option value="admin">Admin (Full management access)</option>
+                            <option value="customer">Customer (Client — can make bookings)</option>
+                            <option value="worker">Worker (Company Staff — can manage bookings)</option>
+                            <option value="admin">Admin (Full Management Access)</option>
                         </select>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn text-white w-100 py-2" style="background-color: var(--adminova-navy);">Create Worker</button>
+                        <button type="submit" class="btn text-white w-100 py-2" style="background-color: var(--adminova-navy);">Create Account</button>
                         <a href="{% url 'accounts:manage_users' %}" class="btn btn-outline-secondary w-50 py-2">Cancel</a>
                     </div>
                 </form>

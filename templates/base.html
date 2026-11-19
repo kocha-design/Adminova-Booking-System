@@ -25,7 +25,6 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'core:home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'bookings:service_list' %}">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
-                        <li class="nav-item ms-lg-2"><a class="btn btn-light btn-sm fw-bold rounded-pill px-3" style="color: var(--adminova-navy);" href="{% url 'accounts:register' %}">Register</a></li>
                     {% else %}
                         <li class="nav-item"><a class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold" href="{% url 'bookings:my_bookings' %}">Go to Dashboard</a></li>
                     {% endif %}

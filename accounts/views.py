@@ -87,26 +87,24 @@ def update_user_role(request, user_id):
         
     return redirect('accounts:manage_users')
 
-# 1. View ya Kuonyesha Fomu ya Kuunda Worker
+# View ya Kuunda Mtumiaji Yeyote (Customer, Worker, au Admin)
 @login_required
-def create_worker(request):
+def create_user(request):
     if not request.user.is_superuser:
-        messages.error(request, "Access denied. Only Super Admins can create workers.")
+        messages.error(request, "Access denied. Only Super Admins can create users.")
         return redirect('bookings:my_bookings')
 
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
-        role = request.POST.get('role', 'worker')
+        role = request.POST.get('role', 'customer')
         password = request.POST.get('password')
 
-        # Kagua kama username tayari ipo
         if CustomUser.objects.filter(username=username).exists():
             messages.error(request, "Username already exists.")
-            return render(request, 'accounts/create_worker.html')
+            return render(request, 'accounts/create_user.html')
 
-        # Tengeneza mtumiaji mpya
         new_user = CustomUser.objects.create_user(
             username=username,
             email=email,
@@ -114,12 +112,11 @@ def create_worker(request):
             password=password,
             role=role
         )
-        # Kama ni admin, mpe staff status
         if role == 'admin':
             new_user.is_staff = True
             new_user.save()
 
-        messages.success(request, f"Worker '{username}' created successfully! Give them the password: {password}")
+        messages.success(request, f"User '{username}' created successfully! Temporary password: {password}")
         return redirect('accounts:manage_users')
 
-    return render(request, 'accounts/create_worker.html')
+    return render(request, 'accounts/create_user.html')
