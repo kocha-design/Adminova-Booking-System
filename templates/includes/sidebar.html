@@ -26,7 +26,6 @@
         {% if user.is_company_staff %}
             <li class="mt-3 mb-1 ms-2 text-uppercase text-secondary fw-bold" style="font-size: 0.75rem;">Management</li>
             
-            <!-- All Bookings (Kazi ya kila siku ya Admin) -->
             <li class="nav-item mb-1">
                 <a href="{% url 'bookings:admin_dashboard' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'admin_dashboard' %}active bg-primary{% endif %}">
                     <i class="bi bi-people me-2"></i> All Bookings
@@ -60,11 +59,14 @@
     <!-- Profile ya Mtumiaji Chini -->
     <hr class="text-secondary">
     <div class="d-flex align-items-center p-2 rounded" style="background-color: rgba(255,255,255,0.05);">
-        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; font-weight: bold; font-size: 1.2rem;">
+        <!-- Avatar Iliyoboreshwa -->
+        <div class="text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow" 
+             style="width: 45px; height: 45px; font-weight: bold; font-size: 1.2rem; background-color: var(--adminova-navy); border: 2px solid rgba(255,255,255,0.3);">
             {{ user.username|first|upper }}
         </div>
         <div class="flex-grow-1">
             <p class="mb-0 fw-bold text-white small">{{ user.username }}</p>
+            <!-- ID na Role vinaonekana hapa -->
             <p class="mb-0 text-secondary" style="font-size: 0.75rem;">{{ user.user_id|default:"N/A" }} — {{ user.get_role_display }}</p>
         </div>
         <form method="post" action="{% url 'accounts:logout' %}">
