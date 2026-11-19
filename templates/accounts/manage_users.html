@@ -10,10 +10,12 @@
         <span class="badge rounded-pill px-3 py-2" style="background-color: var(--adminova-sky); font-size: 0.9rem;">
             {{ users|length }} Total Users
         </span>
-        <!-- Kitufe cha Kuongeza Mtumiaji Mpya -->
+        <!-- Kitufe cha Kuongeza Mtumiaji Mpya (Super Admin pekee) -->
+        {% if user.is_superuser %}
         <a href="{% url 'accounts:create_user' %}" class="btn text-white shadow-sm px-3 py-2 rounded-pill" style="background-color: var(--adminova-navy);">
             <i class="bi bi-person-plus me-1"></i> Add New User
         </a>
+        {% endif %}
     </div>
 </div>
 
@@ -57,9 +59,12 @@
                     {% else %}<span class="badge bg-success px-3 py-2 rounded-pill">Customer</span>{% endif %}
                 </td>
                 <td class="px-4">
+                    <!-- 1. Super Admin hawezi kubadilisha role yake mwenyewe -->
                     {% if u.is_superuser %}
                         <span class="text-muted small fst-italic">Cannot change</span>
-                    {% else %}
+                    
+                    <!-- 2. Super Admin anaweza kubadilisha role ya mtu mwingine -->
+                    {% elif user.is_superuser %}
                         <form method="post" action="{% url 'accounts:update_user_role' u.id %}" class="d-flex gap-2">
                             {% csrf_token %}
                             <select name="role" class="form-select form-select-sm bg-light border-0" style="max-width: 130px;">
@@ -69,6 +74,10 @@
                             </select>
                             <button type="submit" class="btn btn-sm text-white" style="background-color: var(--adminova-navy);">Save</button>
                         </form>
+                    
+                    <!-- 3. Mtu mwingine yeyote hawezi kubadilisha role -->
+                    {% else %}
+                        <span class="text-muted small fst-italic">Only Super Admin can change roles</span>
                     {% endif %}
                 </td>
             </tr>
@@ -76,7 +85,7 @@
             <tr>
                 <td colspan="5" class="text-center py-5">
                     <i class="bi bi-people text-muted" style="font-size: 3rem; opacity: 0.5;"></i>
-                    <p class="text-muted mt-2">No other users registered yet.</p>
+                    <p class="text-muted mt-2">No users registered yet.</p>
                 </td>
             </tr>
             {% endfor %}
