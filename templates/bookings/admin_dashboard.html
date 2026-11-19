@@ -3,135 +3,194 @@
 {% block page_title %}Manage Bookings{% endblock %}
 
 {% block content %}
-<!-- Muhtasari wa Haraka (Summary Cards) -->
+
+<!-- 1. SUMMARY CARDS (Zenye Rangi Nyepesi) -->
 <div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-3 bg-warning bg-opacity-10">
-            <div class="card-body d-flex align-items-center">
-                <div class="bg-warning text-white rounded-circle p-3 me-3"><i class="bi bi-clock-history fs-4"></i></div>
-                <div>
-                    <h6 class="text-muted mb-0">Pending</h6>
-                    <h3 class="fw-bold mb-0">{{ pending_count }}</h3>
+        <div class="card border-0 shadow-sm rounded-4" style="background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small fw-bold mb-1 text-uppercase">Pending Requests</p>
+                        <h2 class="fw-bold mb-0">{{ pending_count }}</h2>
+                    </div>
+                    <div class="bg-white bg-opacity-50 rounded-circle p-3">
+                        <i class="bi bi-hourglass-split fs-3 text-warning"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-3 bg-success bg-opacity-10">
-            <div class="card-body d-flex align-items-center">
-                <div class="bg-success text-white rounded-circle p-3 me-3"><i class="bi bi-check-circle fs-4"></i></div>
-                <div>
-                    <h6 class="text-muted mb-0">Confirmed</h6>
-                    <h3 class="fw-bold mb-0">{{ confirmed_count }}</h3>
+        <div class="card border-0 shadow-sm rounded-4" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small fw-bold mb-1 text-uppercase">Confirmed</p>
+                        <h2 class="fw-bold mb-0">{{ confirmed_count }}</h2>
+                    </div>
+                    <div class="bg-white bg-opacity-50 rounded-circle p-3">
+                        <i class="bi bi-check2-circle fs-3 text-success"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-3 bg-danger bg-opacity-10">
-            <div class="card-body d-flex align-items-center">
-                <div class="bg-danger text-white rounded-circle p-3 me-3"><i class="bi bi-x-circle fs-4"></i></div>
-                <div>
-                    <h6 class="text-muted mb-0">Rejected</h6>
-                    <h3 class="fw-bold mb-0">{{ rejected_count }}</h3>
+        <div class="card border-0 shadow-sm rounded-4" style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small fw-bold mb-1 text-uppercase">Rejected</p>
+                        <h2 class="fw-bold mb-0">{{ rejected_count }}</h2>
+                    </div>
+                    <div class="bg-white bg-opacity-50 rounded-circle p-3">
+                        <i class="bi bi-x-circle fs-3 text-danger"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Kichwa cha Jedwali -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="text-muted mb-0">All Customer Requests</h5>
-    <span class="badge rounded-pill px-3 py-2" style="background-color: var(--adminova-sky);">{{ bookings|length }} Total</span>
+<!-- 2. KICHWA CHA ORODHA -->
+<div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+    <div>
+        <h4 class="fw-bold mb-0">Customer Requests</h4>
+        <p class="text-muted small mb-0">Manage and respond to all incoming service bookings.</p>
+    </div>
+    <span class="badge rounded-pill px-3 py-2" style="background-color: var(--adminova-navy);">{{ bookings|length }} Total</span>
 </div>
 
 {% if bookings %}
-<div class="table-responsive bg-white rounded-3 shadow-sm border-0">
-    <table class="table table-hover align-middle mb-0">
-        <thead class="bg-light">
-            <tr>
-                <th class="py-3 px-4 border-0 text-muted small fw-bold">CUSTOMER</th>
-                <th class="py-3 border-0 text-muted small fw-bold">SERVICE</th>
-                <th class="py-3 border-0 text-muted small fw-bold">STATUS</th>
-                <th class="py-3 px-4 border-0 text-muted small fw-bold">ACTION & PDFs</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for b in bookings %}
-            <tr>
-                <td class="px-4">
+<div class="d-flex flex-column gap-3">
+    {% for b in bookings %}
+    
+    <div class="card border-0 shadow-sm rounded-4 hover-lift transition-base" style="background: #ffffff;">
+        <div class="card-body p-4">
+            <div class="row align-items-center g-4">
+                
+                <!-- SEHEMU 1: MTEJA (Avatar + Jina) -->
+                <div class="col-lg-3 border-end border-light">
                     <div class="d-flex align-items-center">
-                        <div class="bg-secondary bg-opacity-10 text-secondary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; font-weight: bold;">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; font-weight: 700; font-size: 1.1rem;">
                             {{ b.customer.username|first|upper }}
                         </div>
                         <div>
-                            <span class="fw-bold text-dark d-block">{{ b.customer.username }}</span>
-                            <small class="text-muted">{{ b.customer.user_id|default:"No ID" }}</small>
+                            <h6 class="fw-bold mb-0 text-dark">{{ b.customer.username }}</h6>
+                            <p class="text-muted small mb-0">{{ b.customer.user_id }}</p>
                         </div>
                     </div>
-                </td>
-                <td>
-                    <span class="fw-bold text-dark d-block">{{ b.service.name }}</span>
-                    <small class="text-muted text-truncate d-inline-block" style="max-width: 250px;">{{ b.details }}</small>
-                    {% if b.preferred_date %}
-                        <br><small class="badge bg-secondary mt-1">Pref: {{ b.preferred_date }}</small>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if b.status == 'pending' %}<span class="badge bg-warning text-dark px-3 py-2 rounded-pill">Pending</span>
-                    {% elif b.status == 'confirmed' %}<span class="badge bg-info text-dark px-3 py-2 rounded-pill">Confirmed</span>
-                    {% elif b.status == 'in_progress' %}<span class="badge bg-primary px-3 py-2 rounded-pill">In Progress</span>
-                    {% elif b.status == 'completed' %}<span class="badge bg-success px-3 py-2 rounded-pill">Completed</span>
-                    {% elif b.status == 'rejected' %}<span class="badge bg-danger px-3 py-2 rounded-pill">Rejected</span>
-                    {% else %}<span class="badge bg-secondary px-3 py-2 rounded-pill">Cancelled</span>{% endif %}
-                </td>
-                <td class="px-4">
-                    <!-- Fomu ya Kubadilisha Status -->
-                    <form method="post" action="{% url 'bookings:update_booking_status' b.id %}" class="d-flex flex-column gap-2 mb-2" style="min-width: 200px;">
-                        {% csrf_token %}
-                        <select name="status" class="form-select form-select-sm bg-light border-0">
-                            {% for key, label in b.STATUS_CHOICES %}
-                            <option value="{{ key }}" {% if b.status == key %}selected{% endif %}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="number" name="quoted_price" class="form-control form-control-sm bg-light border-0" placeholder="Quote (TZS)" value="{{ b.quoted_price|default_if_none:'' }}" step="0.01">
-                        <input type="text" name="admin_notes" class="form-control form-control-sm bg-light border-0" placeholder="Admin Note" value="{{ b.admin_notes }}">
-                        <button type="submit" class="btn btn-sm text-white" style="background-color: var(--adminova-navy);">Update Status</button>
-                    </form>
+                </div>
 
-                    <!-- Vitufe vya PDF kwa Admin -->
-                    <div class="d-flex gap-1 flex-wrap border-top pt-2">
-                        {% if b.status == 'confirmed' or b.status == 'in_progress' or b.status == 'completed' %}
-                            {% if b.quoted_price %}
-                            <a href="{% url 'bookings:download_quotation' b.id %}" class="btn btn-sm btn-outline-primary" title="Download Quotation">
-                                <i class="bi bi-file-earmark-text"></i> Quote
-                            </a>
-                            {% endif %}
-                            <a href="{% url 'bookings:download_confirmation' b.id %}" class="btn btn-sm btn-outline-success" title="Download Confirmation">
-                                <i class="bi bi-file-earmark-check"></i> Confirm
-                            </a>
-                        {% endif %}
-                        {% if b.status == 'completed' %}
-                            <a href="{% url 'bookings:download_receipt' b.id %}" class="btn btn-sm btn-outline-dark" title="Download Receipt">
-                                <i class="bi bi-receipt"></i> Receipt
-                            </a>
-                        {% endif %}
+                <!-- SEHEMU 2: HUDUMA NA MAELEZO -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="badge bg-light text-dark border me-2 fw-normal" style="font-size: 0.7rem;">Ref #{{ b.id }}</span>
+                        <small class="text-muted">{{ b.created_at|date:"M d, Y" }}</small>
                     </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <h6 class="fw-bold mb-1" style="color: var(--adminova-navy);">{{ b.service.name }}</h6>
+                    <p class="text-muted small mb-1 text-truncate" style="max-width: 100%;">{{ b.details }}</p>
+                    {% if b.preferred_date %}
+                        <span class="badge bg-light text-dark border fw-normal" style="font-size: 0.7rem;"><i class="bi bi-calendar me-1"></i> {{ b.preferred_date }}</span>
+                    {% endif %}
+                </div>
+
+                <!-- SEHEMU 3: STATUS NA BEI -->
+                <div class="col-lg-3">
+                    <div class="d-flex flex-column gap-2">
+                        <div>
+                            <span class="text-muted small d-block">Quoted Price</span>
+                            <h5 class="fw-bold text-success mb-0">
+                                {% if b.quoted_price %}TZS {{ b.quoted_price }}{% else %}<span class="text-muted fs-6">Not set</span>{% endif %}
+                            </h5>
+                        </div>
+                        <div>
+                            {% if b.status == 'pending' %}<span class="badge bg-warning text-dark px-2 py-1 rounded-pill" style="font-size: 0.7rem;"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> Pending</span>
+                            {% elif b.status == 'confirmed' %}<span class="badge bg-info text-dark px-2 py-1 rounded-pill" style="font-size: 0.7rem;"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> Confirmed</span>
+                            {% elif b.status == 'in_progress' %}<span class="badge bg-primary px-2 py-1 rounded-pill" style="font-size: 0.7rem;"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> In Progress</span>
+                            {% elif b.status == 'completed' %}<span class="badge bg-success px-2 py-1 rounded-pill" style="font-size: 0.7rem;"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> Completed</span>
+                            {% elif b.status == 'rejected' %}<span class="badge bg-danger px-2 py-1 rounded-pill" style="font-size: 0.7rem;"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> Rejected</span>
+                            {% else %}<span class="badge bg-secondary px-2 py-1 rounded-pill" style="font-size: 0.7rem;"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> Cancelled</span>{% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEHEMU 4: VITUFE -->
+                <div class="col-lg-2">
+                    <div class="d-flex flex-column gap-2">
+                        <button class="btn btn-sm text-white w-100 fw-bold" style="background-color: var(--adminova-navy); border-radius: 8px;" data-bs-toggle="collapse" data-bs-target="#editForm{{ b.id }}">
+                            <i class="bi bi-pencil-square me-1"></i> Update
+                        </button>
+                        <div class="d-flex gap-1 justify-content-between">
+                            {% if b.status == 'confirmed' or b.status == 'in_progress' or b.status == 'completed' %}
+                                {% if b.quoted_price %}
+                                <a href="{% url 'bookings:download_quotation' b.id %}" class="btn btn-sm btn-outline-primary flex-grow-1" title="Quotation"><i class="bi bi-file-earmark-text"></i></a>
+                                {% endif %}
+                                <a href="{% url 'bookings:download_confirmation' b.id %}" class="btn btn-sm btn-outline-success flex-grow-1" title="Confirmation"><i class="bi bi-file-earmark-check"></i></a>
+                            {% endif %}
+                            {% if b.status == 'completed' %}
+                                <a href="{% url 'bookings:download_receipt' b.id %}" class="btn btn-sm btn-outline-dark flex-grow-1" title="Receipt"><i class="bi bi-receipt"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fomu ya Kuhariri (Collapse) -->
+            <div class="collapse mt-4" id="editForm{{ b.id }}">
+                <div class="p-4 bg-light rounded-4 border-0">
+                    <form method="post" action="{% url 'bookings:update_booking_status' b.id %}">
+                        {% csrf_token %}
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-muted">STATUS</label>
+                                <select name="status" class="form-select bg-white border-0 shadow-sm">
+                                    {% for key, label in b.STATUS_CHOICES %}
+                                    <option value="{{ key }}" {% if b.status == key %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-muted">PRICE (TZS)</label>
+                                <input type="number" name="quoted_price" class="form-control bg-white border-0 shadow-sm" value="{{ b.quoted_price|default_if_none:'' }}" step="0.01">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-muted">ADMIN NOTE</label>
+                                <input type="text" name="admin_notes" class="form-control bg-white border-0 shadow-sm" value="{{ b.admin_notes }}">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success w-100 shadow-sm">Save Changes</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
 </div>
 {% else %}
-<!-- Empty State Nzuri -->
-<div class="text-center py-5 bg-white rounded-3 shadow-sm border-0">
+<!-- Empty State -->
+<div class="text-center py-5 bg-white rounded-4 shadow-sm">
     <div class="mb-3">
         <i class="bi bi-inbox text-muted" style="font-size: 4rem; opacity: 0.5;"></i>
     </div>
-    <h4 class="fw-bold text-dark">No bookings found</h4>
+    <h5 class="fw-bold text-dark">No requests found</h5>
     <p class="text-muted mb-0">When customers book services, they will appear here.</p>
 </div>
 {% endif %}
+
+<!-- CSS ya Hover Effects -->
+<style>
+    .hover-lift:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+    }
+    .transition-base {
+        transition: all 0.3s ease;
+    }
+</style>
+
 {% endblock %}
