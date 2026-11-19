@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
 from .models import CustomUser
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def register_view(request):
     if request.user.is_authenticated:
@@ -30,3 +32,18 @@ def register_view(request):
         return redirect('core:home')
 
     return render(request, 'accounts/register.html')
+
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        
+        request.user.phone = phone
+        request.user.email = email
+        request.user.save()
+        
+        messages.success(request, "Profile updated successfully!")
+        return redirect('accounts:profile')
+        
+    return render(request, 'accounts/profile.html')

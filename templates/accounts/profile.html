@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}My Profile — Adminova{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-lg border-0" style="border-radius: 15px; margin-top: 40px;">
+      <div class="card-body p-5">
+        <div class="text-center mb-4">
+            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem; background-color: var(--adminova-navy) !important;">
+                {{ user.username|first|upper }}
+            </div>
+            <h3 class="fw-bold mb-0" style="color: var(--adminova-navy);">{{ user.username }}</h3>
+            <p class="text-muted small">Role: {{ user.get_role_display }}</p>
+        </div>
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
+            <input type="email" name="email" class="form-control bg-light" value="{{ user.email }}" placeholder="your@email.com">
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-muted small fw-bold">PHONE NUMBER</label>
+            <input type="text" name="phone" class="form-control bg-light" value="{{ user.phone }}" placeholder="+255 7XX XXX XXX">
+          </div>
+          <button type="submit" class="btn btn-adminova w-100 py-2" style="border-radius: 10px;">Update Profile</button>
+        </form>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'accounts:password_change' %}" class="text-decoration-none small text-muted">Change Password</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
